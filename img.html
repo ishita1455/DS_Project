@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider</title>
+    <header>
+        <div class="container">
+            <h1 class="logo">Virtual Labs</h1>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</head>
+<body>
+ <div class="slide">
+    <div style="background-image: url(dsa.png);"></div>
+    <div style="background-image: url(stack.png);"></div>
+    <div style="background-image: url(tree);"></div>
+    <div style="background-image: url(hash);"></div>
+ </div> 
+<style>
+.slide {
+      display: flex;
+      height: 20rem;
+      gap: 1rem;
+    }
+.slide > div {
+    flex : 1;
+    box-sizing: 1rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    transition: all .8s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+ }
+.slide > div:hover {
+    flex: 5;
+}
+header {
+    background-color: #26425a ;
+    color: #c38eb4;
+    padding: 10px 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 2em;
+}
+
+nav {
+    display: flex;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color:#c38eb4;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.25em;
+}
+</style>  
+</body>
+</html>
