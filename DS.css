@@ -71,3 +71,15 @@ nav {
     font-weight: bold;
     color: #1a2a74;
 }
+button {
+    position: relative;
+    padding: 1em 1.5em;
+    color: #26425a;
+    font-size: 1.15rem;
+    border-radius: 100vmax;
+    background-color: #86a8cf;
+    border: 2px solid #26425a;
+    text-transform: uppercase;
+    overflow: hidden;
+    cursor: pointer;
+}
