@@ -1,13 +1,12 @@
 .slide{
-width: 1200px;
+width: 70%; 
 height: 450px;
-margin-left: 250px;
+margin: 0 auto; 
 margin-top: 100px;
-background-image: url(dsa.png) ;
-animation-name: mymove;
-background-repeat:inherit;
-animation-duration: 10s;
-animation-iteration-count: 1;
+align-items: center;
+background-image: url(dsa.png);
+animation: mymove 10s 1 forwards; 
+background-repeat: inherit;
   }
   
 @keyframes mymove {
@@ -25,12 +24,11 @@ animation-iteration-count: 1;
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #e1cbd7;
 }
 
 header {
-    background-color: #26425a ;
-    color: #c38eb4;
+    background-color: #3c6487 ;
+    color: #d086bb;
     padding: 10px 0;
 }
 
@@ -43,7 +41,8 @@ header {
 }
 
 .logo {
-    font-size: 2em;
+    font-size: 3em;
+    font-family: monospace;
 }
 
 nav {
@@ -82,4 +81,60 @@ button {
     text-transform: uppercase;
     overflow: hidden;
     cursor: pointer;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+footer {
+    background-color: #3c6487;
+    color: #d086bb;
+    padding: 20px;
+}
+
+.back {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex-basis: 30%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    color: #d086bb;
+    font-size: 25px;
+    margin-bottom: 10px;
+    font-family: monospace;
+}
+
+p {
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+    line-height: 1.5;
+    color: #fff;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
