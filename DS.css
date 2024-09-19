@@ -6,7 +6,7 @@ margin-top: 100px;
 align-items: center;
 background-image: url(dsa.png);
 animation: mymove 10s 1 forwards; 
-background-repeat: inherit;
+background-repeat: no-repeat;
   }
   
 @keyframes mymove {
@@ -65,11 +65,45 @@ nav {
 }
 
 .heading {
+    text-align: center;
     font-size: 2.5em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bold;
     color: #1a2a74;
 }
+
+td{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+    .card {
+  width: 250px;
+  height: 350px;
+  background-color:#52799b;
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-in-out;
+  
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 button {
     position: relative;
     padding: 1em 1.5em;
@@ -137,4 +171,14 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+h4{
+    font-size: larger;
+    color: #d086bb;
+    text-align: center;
+}
+
+table{
+    align-items: center;
 }
