@@ -1,0 +1,27 @@
+.close-btn:hover {
+    color: white;
+}
+
+.wrapper .sidenav h1.sidebar-title {
+    color: #c38eb4;
+    text-align: center;
+    line-height: 90px;
+    border-bottom: 1px dotted white;
+    margin-bottom: 50px;
+}
+
+.wrapper .sidenav ul li {
+    list-style: none;
+    padding: 15px;
+    border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wrapper .sidenav ul li:hover {
+    background-color: rgba(113, 169, 243, 0.1);
+}
+
+.nav-link {
+    color: #c38eb4;
+    text-decoration: none;
+}
