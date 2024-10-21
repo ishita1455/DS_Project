@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Visualization</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 10%;
+            background: azure;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: black;
+        }
+        button {
+            min-width: 144px;
+            margin: 5px;
+        }
+        .jumbotron {
+            margin-top: 20px;
+            background-color: cadetblue;
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        li {
+            border: 1px solid black;
+            font-size: 2em;
+            text-align: center;
+            width: 10%;
+            transition: background-color 0.5s, transform 0.5s;
+        }
+        .highlight {
+            background-color: lightcoral;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Visualization</h1>
+    <button id="btnGenerate">Generate Numbers</button>
+    <button id="btnLinearSearch">Linear Search</button>
+    <button id="btnBinarySearch">Binary Search</button>
+    <div class="jumbotron">
+        <div class="prime"></div>
+        <div class="sorted"></div>
+    </div>
+    <input type="number" id="searchValue" placeholder="Enter number to search" />
+
+    <script>
+        $(document).ready(function () {
+            let numbersArray = [];
+            let searchInterval;
+            let isPaused = false;
+
+            $("#btnGenerate").click(function () {
+                $(".sorted").empty();
+                generateNumbers();
+            });
+
+            $("#btnLinearSearch").click(function () {
+                if (searchInterval) clearInterval(searchInterval);
+                linearSearch();
+            });
+
+            $("#btnBinarySearch").click(function () {
+                if (searchInterval) clearInterval(searchInterval);
+                binarySearch();
+            });
+
+            function generateNumbers() {
+                numbersArray = [];
+                $(".prime").empty();
+                for (let i = 0; i < 10; i++) {
+                    numbersArray.push(Math.floor(Math.random() * 100));
+                }
+                displayNumbers(numbersArray, $(".prime"));
+            }
+
+            function displayNumbers(array, container) {
+                container.empty();
+                let outputHtml = "<ul>";
+                array.forEach(num => {
+                    outputHtml += "<li>" + num + "</li>";
+                });
+                outputHtml += "</ul>";
+                container.append(outputHtml);
+            }
+
+            function linearSearch() {
+                const target = parseInt($("#searchValue").val());
+                let stepIndex = 0;
+                const steps = [];
+
+                numbersArray.forEach((num, index) => {
+                    const currentStep = [...numbersArray];
+                    if (num === target) {
+                        currentStep[index] = `<span class="highlight">${num}</span>`;
+                        steps.push(currentStep);
+                        return false; // Stop the loop when found
+                    } else {
+                        currentStep[index] = `<span class="highlight">${num}</span>`;
+                        steps.push(currentStep);
+                    }
+                });
+
+                performSteps(steps);
+            }
+
+            function binarySearch() {
+                const target = parseInt($("#searchValue").val());
+                let low = 0;
+                let high = numbersArray.length - 1;
+                let stepIndex = 0;
+                const steps = [];
+
+                // First, sort the array for binary search
+                numbersArray.sort((a, b) => a - b);
+                displayNumbers(numbersArray, $(".prime")); // Display sorted array
+
+                while (low <= high) {
+                    const mid = Math.floor((low + high) / 2);
+                    const currentStep = [...numbersArray];
+
+                    if (numbersArray[mid] === target) {
+                        currentStep[mid] = `<span class="highlight">${numbersArray[mid]}</span>`;
+                        steps.push(currentStep);
+                        break; // Target found
+                    } else if (numbersArray[mid] < target) {
+                        currentStep[mid] = `<span class="highlight">${numbersArray[mid]}</span>`;
+                        steps.push(currentStep);
+                        low = mid + 1;
+                    } else {
+                        currentStep[mid] = `<span class="highlight">${numbersArray[mid]}</span>`;
+                        steps.push(currentStep);
+                        high = mid - 1;
+                    }
+                }
+
+                performSteps(steps);
+            }
+
+            function performSteps(steps) {
+                let stepIndex = 0;
+                searchInterval = setInterval(() => {
+                    if (stepIndex < steps.length) {
+                        displayNumbers(steps[stepIndex], $(".sorted"));
+                        stepIndex++;
+                    } else {
+                        clearInterval(searchInterval);
+                    }
+                }, 1000); // 1 second delay between steps
+            }
+        });
+    </script>
+</body>
+</html>
