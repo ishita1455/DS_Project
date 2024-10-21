@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Binary Search</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+const questions = [
+  {
+    question: 'What is the worst-case time complexity of binary search?',
+    choice1: 'O(n)',
+    choice2: 'O(log n)',
+    choice3: 'O(n^2)',
+    choice4: 'O(1)',
+    answer: 2,
+  },
+  {
+    question: 'Binary search can only be performed on:',
+    choice1: 'Sorted arrays',
+    choice2: 'Unsorted arrays',
+    choice3: 'Linked lists',
+    choice4: 'None of the above',
+    answer: 1,
+  },
+  {
+    question: 'In binary search, if the target value is greater than the middle element, the search continues in which half of the array?',
+    choice1: 'Left half',
+    choice2: 'Right half',
+    choice3: 'Both halves',
+    choice4: 'None',
+    answer: 2,
+  },
+  {
+    question: 'The base condition for terminating the binary search algorithm is:',
+    choice1: 'Low becomes greater than high',
+    choice2: 'The array is unsorted',
+    choice3: 'Mid is equal to low',
+    choice4: 'Low is equal to high',
+    answer: 1,
+  },
+  {
+    question: 'What is the best-case time complexity of binary search?',
+    choice1: 'O(1)',
+    choice2: 'O(log n)',
+    choice3: 'O(n)',
+    choice4: 'O(n log n)',
+    answer: 1,
+  },
+  {
+    question: 'In a binary search algorithm, which part of the array is ignored after each comparison?',
+    choice1: 'The element being compared',
+    choice2: 'Half of the remaining elements',
+    choice3: 'All elements except the middle element',
+    choice4: 'None of the above',
+    answer: 2,
+  },
+  {
+    question: 'Which of the following is a limitation of binary search?',
+    choice1: 'It works only on sorted arrays',
+    choice2: 'It cannot work with negative numbers',
+    choice3: 'It takes more memory than linear search',
+    choice4: 'It has a higher time complexity than linear search',
+    answer: 1,
+  },
+  {
+    question: 'Binary search requires the input array to be:',
+    choice1: 'Randomly ordered',
+    choice2: 'Sorted in ascending order',
+    choice3: 'Sorted in descending order',
+    choice4: 'Both b and c',
+    answer: 4,
+  },
+  {
+    question: 'What happens when binary search is applied to an unsorted array?',
+    choice1: 'It works normally',
+    choice2: 'It fails to find the target',
+    choice3: 'It returns the first element',
+    choice4: 'It performs a linear search instead',
+    answer: 2,
+  },
+  {
+    question: 'Which of the following data structures is most suited for binary search?',
+    choice1: 'Arrays',
+    choice2: 'Linked lists',
+    choice3: 'Binary trees',
+    choice4: 'Stacks',
+    answer: 1,
+  },
+  {
+    question: 'In binary search, what happens if the middle element is the target?',
+    choice1: 'The search continues to the left',
+    choice2: 'The search continues to the right',
+    choice3: 'The search stops',
+    choice4: 'The array is sorted',
+    answer: 3,
+  },
+  {
+    question: 'How many comparisons are made in the worst case for an array of size 1024 using binary search?',
+    choice1: '10',
+    choice2: '512',
+    choice3: '1024',
+    choice4: '100',
+    answer: 1,
+  },
+  {
+    question: 'Which of the following algorithms is more efficient for very large datasets that are already sorted?',
+    choice1: 'Linear search',
+    choice2: 'Binary search',
+    choice3: 'Both have the same efficiency',
+    choice4: 'None of the above',
+    answer: 2,
+  },
+  {
+    question: 'How does binary search reduce the problem size after each comparison?',
+    choice1: 'It divides the problem size by half',
+    choice2: 'It reduces the problem size by one',
+    choice3: 'It removes all elements except the smallest',
+    choice4: 'It eliminates duplicates',
+    answer: 1,
+  },
+  {
+    question: 'For an array of size 1000, how many comparisons are required in the worst case using binary search?',
+    choice1: 'About 10',
+    choice2: 'About 500',
+    choice3: 'About 1000',
+    choice4: 'About 50',
+    answer: 1,
+  },
+  {
+    question: 'What will binary search do if the target element is smaller than the middle element?',
+    choice1: 'Search the right half of the array',
+    choice2: 'Search the left half of the array',
+    choice3: 'Search both halves of the array',
+    choice4: 'Terminate the search',
+    answer: 2,
+  },
+  {
+    question: 'Which of the following scenarios would cause binary search to fail?',
+    choice1: 'The array is sorted in ascending order',
+    choice2: 'The array contains duplicate values',
+    choice3: 'The array is not sorted',
+    choice4: 'The target is at the first index',
+    answer: 3,
+  },
+  {
+    question: 'Binary search uses which of the following paradigms?',
+    choice1: 'Divide and conquer',
+    choice2: 'Dynamic programming',
+    choice3: 'Brute force',
+    choice4: 'Backtracking',
+    answer: 1,
+  },
+  {
+    question: 'What is the space complexity of binary search?',
+    choice1: 'O(1)',
+    choice2: 'O(n)',
+    choice3: 'O(log n)',
+    choice4: 'O(n log n)',
+    answer: 1,
+  },
+  {
+    question: 'Which of the following modifications can be made to binary search to handle duplicate values in a sorted array?',
+    choice1: 'Return the first occurrence of the target',
+    choice2: 'Return the last occurrence of the target',
+    choice3: 'Return the number of occurrences of the target',
+    choice4: 'All of the above',
+    answer: 4,
+  }
+
+  ];
+  
+  let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('bs.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

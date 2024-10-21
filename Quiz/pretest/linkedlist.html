@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linked list</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+
+const questions = [
+    {
+      "question": 'What is the main advantage of a linked list over an array?',
+      "choice1": 'Memory allocation',
+      "choice2": 'Access speed',
+      "choice3": 'Size flexibility',
+      "choice4": 'Data type support',
+      "answer": 3
+    },
+    {
+      "question": 'What is a node in a linked list?',
+      "choice1": 'A single data element',
+      "choice2": 'A structure containing data and a reference to the next node',
+      "choice3": 'A memory block',
+      "choice4": 'A type of array',
+      "answer": 2
+    },
+    {
+      "question": 'What does the head of a linked list represent?',
+      "choice1": 'The last node',
+      "choice2": 'The first node',
+      "choice3": 'The middle node',
+      "choice4": 'A null reference',
+      "answer": 2
+    },
+    {
+      "question": 'Which of the following is a disadvantage of linked lists?',
+      "choice1": 'Dynamic size',
+      "choice2": 'Ease of insertion/deletion',
+      "choice3": 'Memory overhead',
+      "choice4": 'Data structure simplicity',
+      "answer": 3
+    },
+    {
+      "question": 'In a singly linked list, how many pointers does each node have?',
+      "choice1": 'One',
+      "choice2": 'Two',
+      "choice3": 'Three',
+      "choice4": 'None',
+      "answer": 1
+    },
+    {
+      "question": 'What is a circular linked list?',
+      "choice1": 'A linked list with a null reference at the end',
+      "choice2": 'A linked list where the last node points to the first node',
+      "choice3": 'A linked list with only one node',
+      "choice4": 'A linked list that stores data in a circle',
+      "answer": 2
+    },
+    {
+      "question": 'How do you insert a new node at the beginning of a linked list?',
+      "choice1": 'Change the head pointer',
+      "choice2": 'Move all nodes',
+      "choice3": 'Update the tail pointer',
+      "choice4": 'Remove the last node',
+      "answer": 1
+    },
+    {
+      "question": 'What is the time complexity for searching an element in a singly linked list?',
+      "choice1": 'O(1)',
+      "choice2": 'O(n)',
+      "choice3": 'O(log n)',
+      "choice4": 'O(n^2)',
+      "answer": 2
+    },
+    {
+      "question": 'In a doubly linked list, each node has how many pointers?',
+      "choice1": 'One',
+      "choice2": 'Two',
+      "choice3": 'Three',
+      "choice4": 'None',
+      "answer": 2
+    },
+    {
+      "question": 'What is the purpose of the tail pointer in a linked list?',
+      "choice1": 'To store the first node',
+      "choice2": 'To indicate the last node',
+      "choice3": 'To keep track of memory usage',
+      "choice4": 'To store null values',
+      "answer": 2
+    },
+    {
+      "question": 'Which operation is faster in a linked list compared to an array?',
+      "choice1": 'Accessing elements by index',
+      "choice2": 'Inserting elements',
+      "choice3": 'Sorting elements',
+      "choice4": 'Reversing elements',
+      "answer": 2
+    },
+    {
+      "question": 'What does it mean if a linked list is said to be “singly linked”?',
+      "choice1": 'It contains only one node',
+      "choice2": 'It has nodes that point both ways',
+      "choice3": 'Each node points to the next node only',
+      "choice4": 'It has no nodes',
+      "answer": 3
+    },
+    {
+      "question": 'Which of the following is a typical application of linked lists?',
+      "choice1": 'Implementing stacks and queues',
+      "choice2": 'Sorting algorithms',
+      "choice3": 'Dynamic memory allocation',
+      "choice4": 'Matrix operations',
+      "answer": 1
+    },
+    {
+      "question": 'How do you remove a node from the end of a singly linked list?',
+      "choice1": 'Update the head pointer',
+      "choice2": 'Traverse the list to find the second to last node',
+      "choice3": 'Directly access the last node',
+      "choice4": 'Remove the head node',
+      "answer": 2
+    },
+    {
+      "question": 'What is the main disadvantage of a circular linked list?',
+      "choice1": 'Infinite loops',
+      "choice2": 'Complexity in traversal',
+      "choice3": 'Requires more memory',
+      "choice4": 'All of the above',
+      "answer": 1
+    },
+    {
+      "question": 'In which type of linked list can you traverse in both directions?',
+      "choice1": 'Singly linked list',
+      "choice2": 'Circular linked list',
+      "choice3": 'Doubly linked list',
+      "choice4": 'None of the above',
+      "answer": 3
+    },
+    {
+      "question": 'Which operation is not typically supported by linked lists?',
+      "choice1": 'Insertion',
+      "choice2": 'Deletion',
+      "choice3": 'Access by index',
+      "choice4": 'Traversal',
+      "answer": 3
+    },
+    {
+      "question": 'What happens if you try to access a null pointer in a linked list?',
+      "choice1": 'You get the last element',
+      "choice2": 'You cause a segmentation fault',
+      "choice3": 'The program continues running',
+      "choice4": 'Nothing happens',
+      "answer": 2
+    },
+    {
+      "question": 'How can you reverse a linked list?',
+      "choice1": 'Using a stack',
+      "choice2": 'Changing the data of the nodes',
+      "choice3": 'Changing the next pointers',
+      "choice4": 'Using recursion',
+      "answer": 3
+    },
+    {
+      "question": 'What is a sentinel node in a linked list?',
+      "choice1": 'A node with a null value',
+      "choice2": 'A dummy node to simplify operations',
+      "choice3": 'The first node in the list',
+      "choice4": 'The last node in the list',
+      "answer": 2
+    },
+    {
+      "question": 'Which of the following is a benefit of using a doubly linked list?',
+      "choice1": 'Faster searching',
+      "choice2": 'More memory efficient',
+      "choice3": 'Easier node deletion',
+      "choice4": 'Less code complexity',
+      "answer": 3
+    },
+    {
+      "question": 'What is the primary use of the `next` pointer in a linked list?',
+      "choice1": 'To store data',
+      "choice2": 'To point to the previous node',
+      "choice3": 'To point to the next node',
+      "choice4": 'To indicate the end of the list',
+      "answer": 3
+    },
+    {
+      "question": 'Which of the following can lead to a memory leak in linked lists?',
+      "choice1": 'Forgetting to delete nodes',
+      "choice2": 'Accessing null pointers',
+      "choice3": 'Using arrays',
+      "choice4": 'Copying data',
+      "answer": 1
+    }
+  ];
+
+let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('ll.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

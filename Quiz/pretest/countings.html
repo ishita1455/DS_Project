@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Counting Sort</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+const  questions = [
+  {
+    question: 'What is the time complexity of counting sort in the best, average, and worst cases?',
+    choice1: 'O(n log n)',
+    choice2: 'O(n^2)',
+    choice3: 'O(n)',
+    choice4: 'O(n + k)',
+    answer: 4,
+  },
+  {
+    question: 'Counting sort is particularly efficient when:',
+    choice1: 'The range of input numbers is large',
+    choice2: 'The range of input numbers is small',
+    choice3: 'The data is unsorted',
+    choice4: 'The data contains negative numbers',
+    answer: 2,
+  },
+  {
+    question: 'What type of algorithm is counting sort?',
+    choice1: 'Comparison-based',
+    choice2: 'Non-comparison-based',
+    choice3: 'Divide-and-conquer',
+    choice4: 'Dynamic programming',
+    answer: 2,
+  },
+  {
+    question: 'Which of the following is true for counting sort?',
+    choice1: 'It is a stable sorting algorithm',
+    choice2: 'It is an unstable sorting algorithm',
+    choice3: 'It cannot handle duplicates',
+    choice4: 'It always runs in O(n^2) time',
+    answer: 1,
+  },
+  {
+    question: 'What is the space complexity of counting sort?',
+    choice1: 'O(n^2)',
+    choice2: 'O(n)',
+    choice3: 'O(n + k)',
+    choice4: 'O(log n)',
+    answer: 3,
+  },
+  {
+    question: 'Counting sort is best suited for:',
+    choice1: 'Large datasets with a wide range of elements',
+    choice2: 'Small datasets with a narrow range of elements',
+    choice3: 'Data that contains only strings',
+    choice4: 'Data that requires O(n log n) sorting time',
+    answer: 2,
+  },
+  {
+    question: 'Counting sort can only be used when:',
+    choice1: 'The range of the numbers is small',
+    choice2: 'The data is in descending order',
+    choice3: 'The data is in ascending order',
+    choice4: 'The data contains negative numbers',
+    answer: 1,
+  },
+  {
+    question: 'What is the primary drawback of counting sort?',
+    choice1: 'It cannot sort strings',
+    choice2: 'It cannot handle large datasets',
+    choice3: 'It requires extra memory proportional to the range of the input',
+    choice4: 'It is slower than merge sort',
+    answer: 3,
+  },
+  {
+    question: 'Counting sort is not a comparison-based algorithm because:',
+    choice1: 'It sorts the elements based on their values directly',
+    choice2: 'It merges two sorted arrays',
+    choice3: 'It uses pivoting',
+    choice4: 'It uses recursion to divide the array',
+    answer: 1,
+  },
+  {
+    question: 'Counting sort cannot be applied directly to datasets with:',
+    choice1: 'Integers',
+    choice2: 'Characters',
+    choice3: 'Negative numbers',
+    choice4: 'Duplicate elements',
+    answer: 3,
+  },
+  {
+    question: 'In counting sort, the final sorted array is built by:',
+    choice1: 'Merging two sorted arrays',
+    choice2: 'Placing elements directly from the count array',
+    choice3: 'Sorting each bucket individually',
+    choice4: 'Swapping elements until the array is sorted',
+    answer: 2,
+  },
+  {
+    question: 'What is the key difference between counting sort and comparison-based sorts like quicksort or mergesort?',
+    choice1: 'Counting sort uses extra space proportional to the range of values',
+    choice2: 'Counting sort is slower than comparison-based sorts',
+    choice3: 'Counting sort cannot handle large arrays',
+    choice4: 'Counting sort is a recursive algorithm',
+    answer: 1,
+  },
+  {
+    question: 'What is the worst-case space complexity of counting sort?',
+    choice1: 'O(n^2)',
+    choice2: 'O(n)',
+    choice3: 'O(n + k)',
+    choice4: 'O(n log n)',
+    answer: 3,
+  },
+  {
+    question: 'Which of the following data types can be sorted using counting sort?',
+    choice1: 'Integers',
+    choice2: 'Characters',
+    choice3: 'Floating-point numbers',
+    choice4: 'Both a and b',
+    answer: 4,
+  },
+  {
+    question: 'Which property makes counting sort a stable sort?',
+    choice1: 'It compares adjacent elements',
+    choice2: 'It retains the relative order of equal elements',
+    choice3: 'It merges two sorted arrays',
+    choice4: 'It sorts the elements recursively',
+    answer: 2,
+  },
+  {
+    question: 'What is the range of numbers in counting sort determined by?',
+    choice1: 'The number of elements in the array',
+    choice2: 'The difference between the minimum and maximum values in the array',
+    choice3: 'The total number of distinct elements',
+    choice4: 'The number of duplicates in the array',
+    answer: 2,
+  },
+  {
+    question: 'If the input elements of counting sort are in the range [0, k], how much space does the auxiliary count array require?',
+    choice1: 'O(n)',
+    choice2: 'O(k)',
+    choice3: 'O(n + k)',
+    choice4: 'O(k^2)',
+    answer: 2,
+  },
+  {
+    question: 'Counting sort can be used to sort an array of characters because:',
+    choice1: 'Characters have a fixed range of values (ASCII or Unicode)',
+    choice2: 'It does not need to compare elements',
+    choice3: 'It uses recursion',
+    choice4: 'It compares character codes',
+    answer: 1,
+  },
+  {
+    question: 'Which of the following can be a reason why counting sort is not always preferred?',
+    choice1: 'It is slower than quicksort',
+    choice2: 'It has a high space complexity for large ranges of numbers',
+    choice3: 'It does not sort in-place',
+    choice4: 'It does not preserve duplicates',
+    answer: 2,
+  },
+  {
+    question: 'For counting sort to work efficiently, the range of the input elements must be:',
+    choice1: 'Very large',
+    choice2: 'Comparable to the number of elements',
+    choice3: 'Always sorted',
+    choice4: 'Always distinct',
+    answer: 2,
+  },
+  {
+    question: 'In counting sort, what is the purpose of the count array?',
+    choice1: 'To count how many times each element occurs',
+    choice2: 'To compare elements with each other',
+    choice3: 'To store the sorted elements',
+    choice4: 'To merge two arrays',
+    answer: 1,
+  },
+  {
+    question: 'What is the first step in the counting sort algorithm?',
+    choice1: 'Initialize a count array to zero',
+    choice2: 'Compare each element',
+    choice3: 'Perform partitioning',
+    choice4: 'Swap elements',
+    answer: 1,
+  },
+  {
+    question: 'When sorting the elements [4, 2, 2, 8, 3, 3, 1] using counting sort, how many buckets are required to store the count of elements?',
+    choice1: '3',
+    choice2: '4',
+    choice3: '5',
+    choice4: '8',
+    answer: 4,
+  },
+];
+
+
+let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('cs.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

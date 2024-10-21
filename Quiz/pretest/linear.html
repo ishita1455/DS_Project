@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linear Search</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>const questions = [
+    {
+      question: 'What is the worst-case time complexity of linear search?',
+      choice1: 'O(1)',
+      choice2: 'O(n)',
+      choice3: 'O(log n)',
+      choice4: 'O(n log n)',
+      answer: 2,
+    },
+    {
+      question: 'In linear search, if we have an unsorted array of size n, how many elements will the algorithm scan in the worst case?',
+      choice1: '1',
+      choice2: 'n/2',
+      choice3: 'n',
+      choice4: 'log n',
+      answer: 3,
+    },
+    {
+      question: 'When is linear search preferred over binary search?',
+      choice1: 'For sorted arrays',
+      choice2: 'For unsorted arrays',
+      choice3: 'When array size is small',
+      choice4: 'Both b and c',
+      answer: 4,
+    },
+    {
+      question: 'Which of the following does not affect the time complexity of linear search?',
+      choice1: 'Number of elements in the array',
+      choice2: 'Whether the array is sorted or not',
+      choice3: 'Size of the elements in the array',
+      choice4: 'Position of the target element',
+      answer: 3,
+    },
+    {
+      question: 'What is the best-case time complexity of linear search?',
+      choice1: 'O(1)',
+      choice2: 'O(n)',
+      choice3: 'O(n log n)',
+      choice4: 'O(n^2)',
+      answer: 1,
+    },
+    {
+      question: 'In linear search, what happens if the element is found?',
+      choice1: 'Continue the search',
+      choice2: 'Stop the search',
+      choice3: 'Return index -1',
+      choice4: 'Perform binary search',
+      answer: 2,
+    },
+    {
+      question: 'Linear search is inefficient for large datasets because it:',
+      choice1: 'Scans all elements even if the target is found early',
+      choice2: 'Requires sorted data',
+      choice3: 'Requires extra space',
+      choice4: 'Cannot find duplicates',
+      answer: 1,
+    },
+    {
+      question: 'What does linear search do if the element is not found in the list?',
+      choice1: 'Returns the index of the last element',
+      choice2: 'Returns -1',
+      choice3: 'Returns the size of the array',
+      choice4: 'None of the above',
+      answer: 2,
+    },
+    {
+      question: 'Linear search is suitable for:',
+      choice1: 'Large, sorted datasets',
+      choice2: 'Large, unsorted datasets',
+      choice3: 'Small, unsorted datasets',
+      choice4: 'All types of datasets',
+      answer: 3,
+    },
+    {
+      question: 'Which condition would terminate the linear search early?',
+      choice1: 'Finding the target element',
+      choice2: 'Reaching the midpoint of the array',
+      choice3: 'Sorting the array first',
+      choice4: 'Scanning half the elements',
+      answer: 1,
+    },
+    {
+      question: 'Which of the following is true for linear search?',
+      choice1: 'It works only for integers',
+      choice2: 'It works for both sorted and unsorted arrays',
+      choice3: 'It is faster than binary search',
+      choice4: 'It requires more memory than binary search',
+      answer: 2,
+    },
+    {
+      question: 'Which of the following data structures can linear search be used on?',
+      choice1: 'Arrays',
+      choice2: 'Linked lists',
+      choice3: 'Stacks',
+      choice4: 'All of the above',
+      answer: 4,
+    },
+    {
+      question: 'What is the average case time complexity of linear search?',
+      choice1: 'O(1)',
+      choice2: 'O(n)',
+      choice3: 'O(log n)',
+      choice4: 'O(n log n)',
+      answer: 2,
+    },
+    {
+      question: 'In linear search, what will the algorithm do if the target element is at the last index?',
+      choice1: 'It will search all elements before finding it',
+      choice2: 'It will stop after checking the first half of the array',
+      choice3: 'It will perform binary search',
+      choice4: 'It will return -1',
+      answer: 1,
+    },
+    {
+      question: 'Can linear search be applied on linked lists?',
+      choice1: 'Yes, but only for sorted linked lists',
+      choice2: 'Yes, it can be applied to both sorted and unsorted linked lists',
+      choice3: 'No, it can only be applied to arrays',
+      choice4: 'No, it is inefficient for linked lists',
+      answer: 2,
+    },
+    {
+      question: 'What kind of datasets is linear search efficient for?',
+      choice1: 'Large sorted datasets',
+      choice2: 'Small datasets',
+      choice3: 'Large unsorted datasets',
+      choice4: 'None of the above',
+      answer: 2,
+    },
+    {
+      question: 'What happens in linear search if the target element is in the first position?',
+      choice1: 'The search continues through the whole array',
+      choice2: 'The search stops immediately',
+      choice3: 'The search returns the size of the array',
+      choice4: 'It performs binary search instead',
+      answer: 2,
+    },
+    {
+      question: 'What is a key disadvantage of linear search?',
+      choice1: 'It requires sorted data',
+      choice2: 'It uses extra space',
+      choice3: 'It is slow for large datasets',
+      choice4: 'It cannot find duplicate elements',
+      answer: 3,
+    },
+    {
+      question: 'For which type of input would linear search be faster than binary search?',
+      choice1: 'For unsorted arrays',
+      choice2: 'For sorted arrays',
+      choice3: 'For large datasets',
+      choice4: 'For small datasets',
+      answer: 4,
+    },
+    {
+      question: 'Which of the following best describes linear search?',
+      choice1: 'It is a brute-force search algorithm',
+      choice2: 'It is a divide-and-conquer algorithm',
+      choice3: 'It uses recursion to find elements',
+      choice4: 'It requires a sorted dataset',
+      answer: 1,
+    }
+  ];
+  
+  
+  let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('score.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

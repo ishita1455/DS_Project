@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hashing</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+const questions = [
+{
+  question: 'What is hashing?',
+  choice1: 'A process of converting data into a fixed-size string of characters',
+  choice2: 'A method of encryption',
+  choice3: 'A way to store data in a database',
+  choice4: 'A technique for sorting data',
+  answer: 1
+},
+{
+  question: 'What is a hash function?',
+  choice1: 'A function that converts input data into a fixed-size output',
+  choice2: 'A function that retrieves data from a database',
+  choice3: 'A function that sorts data',
+  choice4: 'A function that encrypts data',
+  answer: 1
+},
+{
+  question: 'What is a hash table?',
+  choice1: 'A data structure that uses hash functions to map keys to values',
+  choice2: 'A collection of sorted data',
+  choice3: 'A type of tree data structure',
+  choice4: 'A database management system',
+  answer: 1
+},
+{
+  question: 'What is a collision in hashing?',
+  choice1: 'When two different inputs produce the same hash output',
+  choice2: 'When a hash table is full',
+  choice3: 'When a hash function fails',
+  choice4: 'When data is lost in hashing',
+  answer: 1
+},
+{
+  question: 'What is a good hash function characterized by?',
+  choice1: 'Producing the same output for similar inputs',
+  choice2: 'Being easy to compute and uniformly distributing outputs',
+  choice3: 'Generating long outputs',
+  choice4: 'Being difficult to reverse-engineer',
+  answer: 2
+},
+{
+  question: 'What is open addressing in hash tables?',
+  choice1: 'A method to resolve collisions by finding the next empty slot',
+  choice2: 'A way to encrypt keys in hash tables',
+  choice3: 'A technique to sort hash table entries',
+  choice4: 'A method to delete entries from a hash table',
+  answer: 1
+},
+{
+  question: 'What is chaining in hash tables?',
+  choice1: 'Storing multiple values in a single hash table slot using linked lists',
+  choice2: 'Connecting two hash tables',
+  choice3: 'Creating a tree structure for hash table entries',
+  choice4: 'Using a secondary hash function',
+  answer: 1
+},
+{
+  question: 'What is a load factor in the context of a hash table?',
+  choice1: 'The ratio of the number of stored elements to the number of slots in the table',
+  choice2: 'The total number of collisions in a hash table',
+  choice3: 'The amount of memory used by the hash table',
+  choice4: 'The time complexity of hash functions',
+  answer: 1
+},
+{
+  question: 'What is a perfect hash function?',
+  choice1: 'A hash function that produces no collisions',
+  choice2: 'A hash function that is very fast',
+  choice3: 'A hash function that can be easily reversed',
+  choice4: 'A hash function that uses encryption',
+  answer: 1
+},
+{
+  question: 'Which of the following is an application of hashing?',
+  choice1: 'Storing passwords securely',
+  choice2: 'Sorting data efficiently',
+  choice3: 'Searching for data quickly',
+  choice4: 'None of the above',
+  answer: 1
+},
+{
+  question: 'What happens when the load factor of a hash table exceeds a certain threshold?',
+  choice1: 'The hash table becomes read-only',
+  choice2: 'The hash table is resized and rehashed',
+  choice3: 'All entries are deleted',
+  choice4: 'The hash function changes',
+  answer: 2
+},
+{
+  question: 'What is a hash collision resolution strategy?',
+  choice1: 'The method of dealing with hash collisions',
+  choice2: 'A way to increase the size of a hash table',
+  choice3: 'The process of compressing data',
+  choice4: 'An encryption technique',
+  answer: 1
+},
+{
+  question: 'Which of the following is NOT a common collision resolution method?',
+  choice1: 'Chaining',
+  choice2: 'Open addressing',
+  choice3: 'Quadratic probing',
+  choice4: 'Sorting',
+  answer: 4
+},
+{
+  question: 'What is the time complexity of search operations in a well-designed hash table?',
+  choice1: 'O(n)',
+  choice2: 'O(log n)',
+  choice3: 'O(1) on average',
+  choice4: 'O(n log n)',
+  answer: 3
+},
+{
+  question: 'In which scenario is hashing particularly useful?',
+  choice1: 'When data is sorted',
+  choice2: 'When fast data retrieval is needed',
+  choice3: 'When data is highly structured',
+  choice4: 'When performing mathematical operations',
+  answer: 2
+},
+{
+  question: 'What is the main disadvantage of hashing?',
+  choice1: 'It is slow to compute hashes',
+  choice2: 'It can lead to collisions',
+  choice3: 'It requires more memory',
+  choice4: 'It cannot be used with large data sets',
+  answer: 2
+},
+{
+  question: 'What is a hash set?',
+  choice1: 'A collection that contains unique elements with no specific order',
+  choice2: 'A collection that maintains elements in sorted order',
+  choice3: 'A data structure that allows duplicate elements',
+  choice4: 'A database table for storing hash values',
+  answer: 1
+},
+{
+  question: 'What is a hash map?',
+  choice1: 'A data structure that maps keys to values using a hash function',
+  choice2: 'A data structure for storing sorted data',
+  choice3: 'A type of binary tree',
+  choice4: 'A method for encrypting data',
+  answer: 1
+}
+   
+];
+
+let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('hash.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

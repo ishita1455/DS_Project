@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Heap Sort</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+const questions = [
+  {
+    "question": "What is the time complexity of Heap Sort in the worst case?",
+    "choice1": "O(n)",
+    "choice2": "O(n log n)",
+    "choice3": "O(n^2)",
+    "choice4": "O(log n)",
+    "answer": 2
+  },
+  {
+    "question": "Heap Sort works based on which of the following data structures?",
+    "choice1": "Binary Search Tree",
+    "choice2": "AVL Tree",
+    "choice3": "Binary Heap",
+    "choice4": "B-Tree",
+    "answer": 3
+  },
+  {
+    "question": "What is the type of heap used in Heap Sort to sort elements in ascending order?",
+    "choice1": "Min Heap",
+    "choice2": "Max Heap",
+    "choice3": "Ternary Heap",
+    "choice4": "Fibonacci Heap",
+    "answer": 2
+  },
+  {
+    "question": "What is the time complexity of building a max-heap from an unsorted array?",
+    "choice1": "O(n)",
+    "choice2": "O(n log n)",
+    "choice3": "O(n^2)",
+    "choice4": "O(log n)",
+    "answer": 1
+  },
+  {
+    "question": "Which of the following properties does a binary heap satisfy?",
+    "choice1": "It is a complete binary tree",
+    "choice2": "It is a full binary tree",
+    "choice3": "It is a perfect binary tree",
+    "choice4": "It is a degenerate binary tree",
+    "answer": 1
+  },
+  {
+    "question": "What is the primary difference between a Max Heap and a Min Heap?",
+    "choice1": "Max Heap has more levels",
+    "choice2": "Max Heap has the largest element at the root",
+    "choice3": "Min Heap is faster",
+    "choice4": "None of the above",
+    "answer": 2
+  },
+  {
+    "question": "In the heap sort algorithm, after building the heap, the next step is to:",
+    "choice1": "Perform a quicksort",
+    "choice2": "Extract the root and re-heapify",
+    "choice3": "Merge two heaps",
+    "choice4": "Perform binary search",
+    "answer": 2
+  },
+  {
+    "question": "Which of the following is true about the heap sort algorithm?",
+    "choice1": "It is a stable sort",
+    "choice2": "It is an unstable sort",
+    "choice3": "It has quadratic time complexity",
+    "choice4": "It cannot handle duplicate values",
+    "answer": 2
+  },
+  {
+    "question": "What is the space complexity of heap sort, assuming the heap is implemented in place?",
+    "choice1": "O(n)",
+    "choice2": "O(log n)",
+    "choice3": "O(1)",
+    "choice4": "O(n log n)",
+    "answer": 3
+  },
+  {
+    "question": "Heap Sort is primarily used because:",
+    "choice1": "It has the best time complexity",
+    "choice2": "It works better with linked lists",
+    "choice3": "It sorts in O(n)",
+    "choice4": "It uses O(1) additional space and guarantees O(n log n) time",
+    "answer": 4
+  },
+  {
+    "question": "What is the height of a complete binary heap with n nodes?",
+    "choice1": "O(log n)",
+    "choice2": "O(n)",
+    "choice3": "O(1)",
+    "choice4": "O(n log n)",
+    "answer": 1
+  },
+  {
+    "question": "During heap sort, when a max heap is used, the root element is:",
+    "choice1": "The smallest element in the array",
+    "choice2": "The largest element in the array",
+    "choice3": "The middle element of the array",
+    "choice4": "The first element to be discarded",
+    "answer": 2
+  },
+  {
+    "question": "Heap sort is better suited for:",
+    "choice1": "Small datasets",
+    "choice2": "Linked lists",
+    "choice3": "Large datasets that don’t fit in memory",
+    "choice4": "Arrays stored in place",
+    "answer": 4
+  },
+  {
+    "question": "Which of the following is true about heap sort?",
+    "choice1": "It requires additional memory",
+    "choice2": "It is a comparison-based sorting algorithm",
+    "choice3": "It cannot be used to sort in descending order",
+    "choice4": "It is faster than quicksort in the average case",
+    "answer": 2
+  },
+  {
+    "question": "In Heap Sort, to restore the heap property after removing the root, we perform:",
+    "choice1": "Quick Sort",
+    "choice2": "Merge Sort",
+    "choice3": "Heapify",
+    "choice4": "Insertion Sort",
+    "answer": 3
+  },
+  {
+    "question": "What does the 'heapify' operation do in the context of heap sort?",
+    "choice1": "It swaps the root with the last element",
+    "choice2": "It rearranges the tree to satisfy heap properties",
+    "choice3": "It merges two heaps",
+    "choice4": "It creates a new heap from scratch",
+    "answer": 2
+  },
+  {
+    "question": "Heap sort is an example of which type of sorting algorithm?",
+    "choice1": "Divide and conquer",
+    "choice2": "Greedy algorithm",
+    "choice3": "Selection sort",
+    "choice4": "Dynamic programming",
+    "answer": 3
+  },
+  {
+    "question": "Which of the following statements is true regarding heap sort?",
+    "choice1": "Heap sort is a recursive algorithm",
+    "choice2": "Heap sort is an in-place algorithm",
+    "choice3": "Heap sort requires extra memory proportional to the input size",
+    "choice4": "Heap sort cannot handle negative numbers",
+    "answer": 2
+  },
+  {
+    "question": "What is the main advantage of Heap Sort over Merge Sort?",
+    "choice1": "Better worst-case time complexity",
+    "choice2": "Lower memory usage",
+    "choice3": "Stability of sorting",
+    "choice4": "Faster for small inputs",
+    "answer": 2
+  },
+  {
+    "question": "Which element is swapped with the root in heap sort during the sorting process?",
+    "choice1": "Middle element",
+    "choice2": "Last element in the array",
+    "choice3": "First element in the array",
+    "choice4": "The smallest element",
+    "answer": 2
+  },
+  {
+    "question": "What happens after extracting the maximum element in heap sort?",
+    "choice1": "The array is sorted immediately",
+    "choice2": "The array size is halved",
+    "choice3": "The heap is reheapified",
+    "choice4": "Nothing happens",
+    "answer": 3
+  },
+  {
+    "question": "Which of the following is a true statement?",
+    "choice1": "Heap Sort is not efficient for large datasets",
+    "choice2": "Heap Sort can be implemented using a linked list",
+    "choice3": "Heap Sort is better than Quick Sort in terms of space complexity",
+    "choice4": "Heap Sort is a stable sorting algorithm",
+    "answer": 1
+  }
+
+  ];
+  
+  let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('hs.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

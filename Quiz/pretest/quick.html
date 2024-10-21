@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Sort</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+const questions = [
+{
+    "question": "What is the average-case time complexity of quicksort?",
+    "choice1": "O(n^2)",
+    "choice2": "O(n log n)",
+    "choice3": "O(log n)",
+    "choice4": "O(n)",
+    "answer": 2
+  },
+  {
+    "question": "What is the worst-case time complexity of quicksort?",
+    "choice1": "O(n^2)",
+    "choice2": "O(n log n)",
+    "choice3": "O(n)",
+    "choice4": "O(log n)",
+    "answer": 1
+  },
+  {
+    "question": "Which of the following algorithms does quicksort belong to?",
+    "choice1": "Divide and conquer",
+    "choice2": "Dynamic programming",
+    "choice3": "Greedy algorithms",
+    "choice4": "Backtracking",
+    "answer": 1
+  },
+  {
+    "question": "What is the key process in quicksort?",
+    "choice1": "Merging",
+    "choice2": "Partitioning",
+    "choice3": "Heapifying",
+    "choice4": "Sorting recursively",
+    "answer": 2
+  },
+  {
+    "question": "What is the role of the pivot element in quicksort?",
+    "choice1": "It divides the array into two halves",
+    "choice2": "It merges two sorted arrays",
+    "choice3": "It is the maximum element of the array",
+    "choice4": "It helps in heapifying the array",
+    "answer": 1
+  },
+  {
+    "question": "What is the best-case time complexity of quicksort?",
+    "choice1": "O(n)",
+    "choice2": "O(n^2)",
+    "choice3": "O(n log n)",
+    "choice4": "O(log n)",
+    "answer": 3
+  },
+  {
+    "question": "Which is a disadvantage of quicksort?",
+    "choice1": "It requires additional memory",
+    "choice2": "It is slow for large datasets",
+    "choice3": "It has a worst-case time complexity of O(n^2)",
+    "choice4": "It cannot handle negative numbers",
+    "answer": 3
+  },
+  {
+    "question": "What happens in quicksort if the pivot is always the largest or smallest element?",
+    "choice1": "The algorithm works normally",
+    "choice2": "The algorithm will take O(n log n) time",
+    "choice3": "The algorithm performs poorly, with time complexity O(n^2)",
+    "choice4": "The algorithm will fail",
+    "answer": 3
+  },
+  {
+    "question": "What is the purpose of the partitioning step in quicksort?",
+    "choice1": "To split the array into equal parts",
+    "choice2": "To move elements smaller than the pivot to the left and larger to the right",
+    "choice3": "To merge two sorted arrays",
+    "choice4": "To heapify the array",
+    "answer": 2
+  },
+  {
+    "question": "Which pivot selection method can reduce the chances of quicksort reaching its worst case?",
+    "choice1": "Selecting the first element as pivot",
+    "choice2": "Selecting the last element as pivot",
+    "choice3": "Randomly selecting the pivot",
+    "choice4": "Selecting the middle element as pivot",
+    "answer": 3
+  },
+  {
+    "question": "Which of the following is true about quicksort?",
+    "choice1": "It is an in-place sorting algorithm",
+    "choice2": "It is a stable sorting algorithm",
+    "choice3": "It always takes O(n log n) time",
+    "choice4": "It uses extra memory proportional to the size of the array",
+    "answer": 1
+  },
+  {
+    "question": "What is the space complexity of quicksort (ignoring recursion stack space)?",
+    "choice1": "O(n)",
+    "choice2": "O(1)",
+    "choice3": "O(log n)",
+    "choice4": "O(n log n)",
+    "answer": 2
+  },
+  {
+    "question": "In quicksort, what happens after the partition step?",
+    "choice1": "The array is merged",
+    "choice2": "Quicksort is called recursively on the two partitions",
+    "choice3": "The pivot is swapped with the last element",
+    "choice4": "All elements are sorted",
+    "answer": 2
+  },
+  {
+    "question": "Which of the following can be a pivot in quicksort?",
+    "choice1": "The first element of the array",
+    "choice2": "The last element of the array",
+    "choice3": "A random element in the array",
+    "choice4": "Any of the above",
+    "answer": 4
+  },
+  {
+    "question": "Which of the following algorithms is faster than quicksort in the worst case?",
+    "choice1": "Merge sort",
+    "choice2": "Bubble sort",
+    "choice3": "Insertion sort",
+    "choice4": "Selection sort",
+    "answer": 1
+  },
+  {
+    "question": "Which of the following is NOT a key feature of quicksort?",
+    "choice1": "It is a comparison-based sorting algorithm",
+    "choice2": "It is a stable sorting algorithm",
+    "choice3": "It uses a pivot element",
+    "choice4": "It has an average-case time complexity of O(n log n)",
+    "answer": 2
+  },
+  {
+    "question": "What is the first step in the quicksort algorithm?",
+    "choice1": "Merge the two halves",
+    "choice2": "Partition the array",
+    "choice3": "Select a pivot",
+    "choice4": "Sort the array in ascending order",
+    "answer": 3
+  },
+  {
+    "question": "When does quicksort perform poorly?",
+    "choice1": "When the array is already sorted",
+    "choice2": "When the pivot is the median of the array",
+    "choice3": "When the pivot is the smallest or largest element",
+    "choice4": "When the array is randomly ordered",
+    "answer": 3
+  },
+  {
+    "question": "How does quicksort handle duplicate elements?",
+    "choice1": "It sorts them in a stable manner",
+    "choice2": "It treats all duplicates as equal, but it is not stable",
+    "choice3": "It places duplicates in a separate array",
+    "choice4": "It performs poorly with duplicate elements",
+    "answer": 2
+  },
+  {
+    "question": "Which sorting algorithm is generally faster in practice for small to medium datasets?",
+    "choice1": "Quick sort",
+    "choice2": "Merge sort",
+    "choice3": "Heap sort",
+    "choice4": "Bubble sort",
+    "answer": 1
+  },
+  {
+    "question": "What does the partition function in quicksort return?",
+    "choice1": "The index of the pivot after partitioning",
+    "choice2": "The sorted array",
+    "choice3": "The number of comparisons made",
+    "choice4": "The total number of elements smaller than the pivot",
+    "answer": 1
+  }
+];
+
+let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('qs.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stack</title>
+    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+
+<body>
+	<div class="ques_container">
+		<div class="allques">
+		<div class="info">
+		<div class="textques">
+			<p id='progressText'>Question</p>
+			<div id="progressBar">
+				<div id="progressBarFull"></div>
+			</div>
+		</div>
+
+		<div class="textscore">
+			<p >Score</p>
+			<h2 id='scorenumber'>0</h2>
+		</div>
+		</div>
+		<div class="questions" >
+			<div><h3 id='QuestionText'>What is the Question?</h3></div>
+			<div class="choices">
+			<div >
+				<p class='ChoiceText' data-number="1">num1</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="2" >num2</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="3">num3</p>
+			</div>
+			<div>
+				<p class='ChoiceText' data-number="4">num4</p>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+</div>
+<script>
+const questions = [
+{
+  question: 'What is a stack?',
+  choice1: 'A linear data structure that follows a First In First Out (FIFO) order',
+  choice2: 'A linear data structure that follows a Last In First Out (LIFO) order',
+  choice3: 'A non-linear data structure',
+  choice4: 'A type of tree structure',
+  answer: 2
+},
+{
+  question: 'Which operation is not typically associated with a stack?',
+  choice1: 'Push',
+  choice2: 'Pop',
+  choice3: 'Enqueue',
+  choice4: 'Peek',
+  answer: 3
+},
+{
+  question: 'What is the time complexity of the push operation in a stack?',
+  choice1: 'O(1)',
+  choice2: 'O(n)',
+  choice3: 'O(log n)',
+  choice4: 'O(n log n)',
+  answer: 1
+},
+{
+  question: 'What does the peek operation do in a stack?',
+  choice1: 'Removes the top element',
+  choice2: 'Returns the top element without removing it',
+  choice3: 'Adds an element to the stack',
+  choice4: 'Clears the stack',
+  answer: 2
+},
+{
+  question: 'What is a common use case for a stack?',
+  choice1: 'Storing elements in sorted order',
+  choice2: 'Implementing function calls and recursion',
+  choice3: 'Searching for an element',
+  choice4: 'Sorting a list of elements',
+  answer: 2
+},
+{
+  question: 'Which of the following is true about stacks?',
+  choice1: 'Stacks can be implemented using arrays or linked lists',
+  choice2: 'Stacks allow insertion and deletion from both ends',
+  choice3: 'Stacks can be used to sort data in linear time',
+  choice4: 'Stacks can only store primitive data types',
+  answer: 1
+},
+{
+  question: 'What happens when you pop an element from an empty stack?',
+  choice1: 'The stack returns null',
+  choice2: 'The stack throws an error or exception',
+  choice3: 'The stack returns the last element',
+  choice4: 'The stack resets itself',
+  answer: 2
+},
+{
+  question: 'Which data structure is often used to implement a stack?',
+  choice1: 'Queue',
+  choice2: 'Linked List',
+  choice3: 'Hash Table',
+  choice4: 'Binary Tree',
+  answer: 2
+},
+{
+  question: 'In which order are elements removed from a stack?',
+  choice1: 'First In First Out (FIFO)',
+  choice2: 'Last In First Out (LIFO)',
+  choice3: 'Random Order',
+  choice4: 'Sorted Order',
+  answer: 2
+},
+{
+  question: 'What is the primary advantage of using a stack?',
+  choice1: 'Fast access to any element',
+  choice2: 'Simplifies the management of function calls',
+  choice3: 'Maintains the order of elements',
+  choice4: 'Can store a variable number of elements',
+  answer: 2
+},
+{
+  question: 'How is a stack implemented in programming languages?',
+  choice1: 'Using global variables only',
+  choice2: 'Using a static array only',
+  choice3: 'Using a dynamic array or linked list',
+  choice4: 'Using recursion only',
+  answer: 3
+},
+{
+  question: 'What is the space complexity of a stack with n elements?',
+  choice1: 'O(1)',
+  choice2: 'O(n)',
+  choice3: 'O(log n)',
+  choice4: 'O(n^2)',
+  answer: 2
+},
+{
+  question: 'Which of the following problems can be solved using a stack?',
+  choice1: 'Finding the shortest path in a graph',
+  choice2: 'Validating parentheses in an expression',
+  choice3: 'Sorting an array',
+  choice4: 'Searching for an element in a list',
+  answer: 2
+},
+{
+  question: 'What type of stack is used in depth-first search (DFS)?',
+  choice1: 'Implicit stack',
+  choice2: 'Explicit stack',
+  choice3: 'Circular stack',
+  choice4: 'Double-ended stack',
+  answer: 2
+},
+{
+  question: 'What is the maximum size of a stack?',
+  choice1: 'It is unlimited',
+  choice2: 'Depends on the implementation',
+  choice3: 'Fixed to a predefined size',
+  choice4: 'Depends on the operating system',
+  answer: 2
+},
+{
+  question: 'Which of the following is not an application of stacks?',
+  choice1: 'Reversing a string',
+  choice2: 'Backtracking algorithms',
+  choice3: 'Depth-first search in trees',
+  choice4: 'Finding the minimum element in a list',
+  answer: 4
+},
+{
+  question: 'What is the function of the stack pointer?',
+  choice1: 'Tracks the top element of the stack',
+  choice2: 'Tracks the bottom element of the stack',
+  choice3: 'Indicates the size of the stack',
+  choice4: 'Indicates if the stack is empty',
+  answer: 1
+},
+{
+  question: 'In a stack, what does it mean when it is said to be "full"?',
+  choice1: 'It has reached its maximum size',
+  choice2: 'It cannot hold more data',
+  choice3: 'It has no elements',
+  choice4: 'It has a negative capacity',
+  answer: 1
+}
+
+];
+let currentQuestion = {};
+  let allowAnswer = true;
+  let score = 0;
+  let questionCounter = 0;
+  let availableQuestions = [];
+  const questionText = document.querySelector('#QuestionText');
+  const choices = Array.from(document.querySelectorAll('.ChoiceText'));
+  const progressText = document.querySelector('#progressText');
+  const scoreText = document.querySelector('#scorenumber');
+  const progressBarFull = document.querySelector('#progressBarFull');
+  const SCORE_POINTS = 25;
+  const MAX_QUESTIONS = 5; 
+  
+  const selectRandomQuestions = () => {
+	let selectedQuestions = [];
+	let questionsCopy = [...questions];
+  
+	for (let i = 0; i < MAX_QUESTIONS; i++) {
+	  const randomIndex = Math.floor(Math.random() * questionsCopy.length);
+	  selectedQuestions.push(questionsCopy[randomIndex]);
+	  questionsCopy.splice(randomIndex, 1);
+	}
+  
+	return selectedQuestions;
+  };
+  
+  const GetStarted = () => {
+	questionCounter = 0;
+	score = 0;
+	availableQuestions = selectRandomQuestions();
+	getNewQuestion();
+  };
+  
+  const getNewQuestion = () => {
+	if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+	  localStorage.setItem('mostRecentScore', score);
+	  return window.location.assign('st.html');
+	}
+  
+	questionCounter++;
+	progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+	progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+  
+	const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+	currentQuestion = availableQuestions[questionIndex];
+	questionText.innerText = currentQuestion.question;
+  
+	choices.forEach(choice => {
+	  const number = choice.dataset['number'];
+	  choice.innerText = currentQuestion['choice' + number];
+	});
+  
+	availableQuestions.splice(questionIndex, 1);
+	allowAnswer = true;
+  };
+  
+  choices.forEach(choice => {
+	choice.addEventListener('click', e => {
+	  if (!allowAnswer) return;
+	  allowAnswer = false;
+  
+	  const selectedChoice = e.target;
+	  const selectedAnswer = selectedChoice.dataset['number'];
+	  const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+  
+	  if (classToApply === 'correct') {
+		incrementScore(SCORE_POINTS);
+	  } else {
+		
+		const correctChoice = choices.find(choice => choice.dataset['number'] == currentQuestion.answer);
+		correctChoice.parentElement.classList.add('correct');
+	  }
+  
+	  selectedChoice.parentElement.classList.add(classToApply);
+  
+	  setTimeout(() => {
+	
+		selectedChoice.parentElement.classList.remove(classToApply);
+		choices.forEach(choice => choice.parentElement.classList.remove('correct')); 
+		getNewQuestion();
+	  }, 2000);
+	});
+  });
+  
+  const incrementScore = number => {
+	score += number;
+	scoreText.innerText = score;
+  };
+  
+  GetStarted();
+</script>
+</body>
+</html>
