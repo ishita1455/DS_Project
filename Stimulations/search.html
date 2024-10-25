@@ -58,8 +58,7 @@
         $(document).ready(function () {
             let numbersArray = [];
             let searchInterval;
-            let isPaused = false;
-
+        
             $("#btnGenerate").click(function () {
                 $(".sorted").empty();
                 generateNumbers();
@@ -95,24 +94,25 @@
             }
 
             function linearSearch() {
-                const target = parseInt($("#searchValue").val());
-                let stepIndex = 0;
-                const steps = [];
+    const target = parseInt($("#searchValue").val()); 
+    let stepIndex = 0;
+    const steps = [];
 
-                numbersArray.forEach((num, index) => {
-                    const currentStep = [...numbersArray];
-                    if (num === target) {
-                        currentStep[index] = `<span class="highlight">${num}</span>`;
-                        steps.push(currentStep);
-                        return false; // Stop the loop when found
-                    } else {
-                        currentStep[index] = `<span class="highlight">${num}</span>`;
-                        steps.push(currentStep);
-                    }
-                });
+    for (let index = 0; index < numbersArray.length; index++) {
+        const num = numbersArray[index];
+        const currentStep = [...numbersArray]; 
 
-                performSteps(steps);
-            }
+        currentStep[index] = `<span class="highlight">${num}</span>`;
+        steps.push(currentStep);
+
+        if (num === target) {
+            break; 
+        }
+    }
+
+    performSteps(steps);
+}
+
 
             function binarySearch() {
                 const target = parseInt($("#searchValue").val());
@@ -121,9 +121,9 @@
                 let stepIndex = 0;
                 const steps = [];
 
-                // First, sort the array for binary search
+                
                 numbersArray.sort((a, b) => a - b);
-                displayNumbers(numbersArray, $(".prime")); // Display sorted array
+                displayNumbers(numbersArray, $(".prime")); 
 
                 while (low <= high) {
                     const mid = Math.floor((low + high) / 2);
@@ -132,7 +132,7 @@
                     if (numbersArray[mid] === target) {
                         currentStep[mid] = `<span class="highlight">${numbersArray[mid]}</span>`;
                         steps.push(currentStep);
-                        break; // Target found
+                        break; 
                     } else if (numbersArray[mid] < target) {
                         currentStep[mid] = `<span class="highlight">${numbersArray[mid]}</span>`;
                         steps.push(currentStep);
@@ -156,7 +156,7 @@
                     } else {
                         clearInterval(searchInterval);
                     }
-                }, 1000); // 1 second delay between steps
+                }, 1000); 
             }
         });
     </script>

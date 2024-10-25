@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 10%;
+            background: azure;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: black;
+        }
+        button {
+            min-width: 144px;
+            margin: 5px;
+        }
+        .jumbotron {
+            margin-top: 20px;
+            background-color: cadetblue;
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        li {
+            border: 1px solid black;
+            font-size: 2em;
+            text-align: center;
+            width: 10%;
+            transition: background-color 0.5s, transform 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quick Sort</h1>
+    <button id="btnGenerate">Generate Numbers</button>
+    <button id="btnSort">Sort</button>
+    <button id="btnPause">Pause</button>
+    <div class="jumbotron">
+        <div class="prime"></div>
+        <div class="sorted"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let numbersArray = [];
+            let sortInterval;
+            let isPaused = false;
+
+            $("#btnGenerate").click(function () {
+                $(".sorted").empty();
+                generateNumbers();
+            });
+
+            $("#btnSort").click(function () {
+                if (sortInterval) clearInterval(sortInterval);
+                sortNumbers();
+            });
+
+            $("#btnPause").click(function () {
+                isPaused = !isPaused;
+                $(this).text(isPaused ? "Resume" : "Pause");
+            });
+
+            function generateNumbers() {
+                numbersArray = [];
+                $(".prime").empty();
+                for (let i = 0; i < 10; i++) {
+                    numbersArray.push(Math.floor(Math.random() * 100));
+                }
+                displayNumbers(numbersArray, $(".prime"));
+            }
+
+            function displayNumbers(array, container) {
+                container.empty();
+                let outputHtml = "<ul>";
+                array.forEach(num => {
+                    outputHtml += "<li>" + num + "</li>";
+                });
+                outputHtml += "</ul>";
+                container.append(outputHtml);
+            }
+
+            function sortNumbers() {
+                let steps = [];
+                quickSort(0, numbersArray.length - 1, steps);
+
+                let stepIndex = 0;
+                sortInterval = setInterval(() => {
+                    if (stepIndex < steps.length && !isPaused) {
+                        displayNumbers(steps[stepIndex], $(".sorted"));
+                        stepIndex++;
+                    } else if (stepIndex >= steps.length) {
+                        clearInterval(sortInterval);
+                    }
+                }, 1000); 
+            }
+
+            function quickSort(low, high, steps) {
+                if (low < high) {
+                    const partitionIndex = partition(low, high, steps);
+                    quickSort(low, partitionIndex - 1, steps);
+                    quickSort(partitionIndex + 1, high, steps);
+                }
+            }
+
+            function partition(low, high, steps) {
+                const pivot = numbersArray[high];
+                let i = low - 1;
+
+                for (let j = low; j < high; j++) {
+                    if (numbersArray[j] <= pivot) {
+                        i++;
+                        [numbersArray[i], numbersArray[j]] = [numbersArray[j], numbersArray[i]];
+                        steps.push([...numbersArray]); 
+                    }
+                }
+                i++;
+                [numbersArray[i], numbersArray[high]] = [numbersArray[high], numbersArray[i]];
+                steps.push([...numbersArray]); 
+                return i;
+            }
+        });
+    </script>
+</body>
+</html>

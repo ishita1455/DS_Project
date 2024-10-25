@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Visualization</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body { margin: 10%; background: azure; font-family: Arial, sans-serif; }
+        h1 { text-align: center; color: black; }
+        button { min-width: 144px; margin: 5px; }
+        .jumbotron { margin-top: 20px; background-color: cadetblue; padding: 20px; }
+        .list-container { display: flex; justify-content: center; align-items: center; }
+        .node-container { display: flex; flex-direction: column; align-items: center; margin: 0 5px; }
+        .index { font-size: 1em; color: black; }
+        .node { border: 1px solid black; font-size: 1.5em; text-align: center; padding: 10px; width: auto; }
+        .arrow { font-size: 2em; margin: 0 5px; }
+    </style>
+</head>
+<body>
+    <h1>Linked List Visualization</h1>
+    <button id="btnInsertFront">Insert at Front</button>
+    <button id="btnInsertMiddle">Insert at Position</button>
+    <button id="btnInsertLast">Insert at Last</button>
+    <button id="btnDisplaySingly">Display Singly Linked List</button>
+    <div class="jumbotron">
+        <div class="list-container" id="singlyContainer"></div>
+    </div>
+    <input type="number" id="nodeValue" placeholder="Enter node value" />
+    <input type="number" id="nodePosition" placeholder="Enter position (for middle insertion)" />
+
+    <script>
+        let head = null;
+
+        function createNode(value) {
+            return { value, next: null };
+        }
+
+        function insertFront(value) {
+            const newNode = createNode(value);
+            newNode.next = head;
+            head = newNode;
+        }
+
+        function insertAtPosition(value, position) {
+            const newNode = createNode(value);
+            if (position <= 0 || !head) {
+                insertFront(value);
+                return;
+            }
+            let current = head;
+            let index = 1;
+            while (index < position && current.next) {
+                current = current.next;
+                index++;
+            }
+            newNode.next = current.next;
+            current.next = newNode;
+        }
+
+        function insertLast(value) {
+            const newNode = createNode(value);
+            if (!head) {
+                head = newNode;
+            } else {
+                let current = head;
+                while (current.next) current = current.next;
+                current.next = newNode;
+            }
+        }
+
+        function display() {
+            const elements = [];
+            let current = head;
+            let index = 0;
+            while (current) {
+                elements.push({ index: index++, value: current.value });
+                current = current.next;
+            }
+            return elements;
+        }
+
+        $(document).ready(function () {
+            $("#btnInsertFront").click(function () {
+                const value = parseInt($("#nodeValue").val());
+                if (!isNaN(value)) {
+                    insertFront(value);
+                    $("#nodeValue").val('');
+                }
+            });
+
+            $("#btnInsertMiddle").click(function () {
+                const value = parseInt($("#nodeValue").val());
+                const position = parseInt($("#nodePosition").val());
+                if (!isNaN(value) && !isNaN(position)) {
+                    insertAtPosition(value, position);
+                    $("#nodeValue").val('');
+                    $("#nodePosition").val('');
+                }
+            });
+
+            $("#btnInsertLast").click(function () {
+                const value = parseInt($("#nodeValue").val());
+                if (!isNaN(value)) {
+                    insertLast(value);
+                    $("#nodeValue").val('');
+                }
+            });
+
+            $("#btnDisplaySingly").click(function () {
+                const elements = display();
+                displayList(elements, "#singlyContainer");
+            });
+
+            function displayList(elements, containerId) {
+                const container = $(containerId);
+                container.empty();
+                elements.forEach((element, index) => {
+                    const nodeHtml = `
+                        <div class='node-container'>
+                            <div class='index'>${element.index}</div>
+                            <div class='node'>${element.value}</div>
+                        </div>`;
+                    container.append(nodeHtml);
+                    if (index < elements.length - 1) container.append("<span class='arrow'>→</span>");
+                });
+            }
+        });
+    </script>
+</body>
+</html>
