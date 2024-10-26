@@ -22,62 +22,96 @@
     <button id="btnInsertFront">Insert at Front</button>
     <button id="btnInsertMiddle">Insert at Position</button>
     <button id="btnInsertLast">Insert at Last</button>
-    <button id="btnDisplaySingly">Display Singly Linked List</button>
+    <button id="btnRemoveNode">Remove Node at Position</button>
     <div class="jumbotron">
         <div class="list-container" id="singlyContainer"></div>
     </div>
     <input type="number" id="nodeValue" placeholder="Enter node value" />
-    <input type="number" id="nodePosition" placeholder="Enter position (for middle insertion)" />
+    <input type="number" id="nodePosition" placeholder="Enter position (for middle insertion or removal)" />
 
     <script>
         let head = null;
 
         function createNode(value) {
-            return { value, next: null };
+            return { value: value, next: null };
         }
 
         function insertFront(value) {
-            const newNode = createNode(value);
+            let newNode = createNode(value);
             newNode.next = head;
             head = newNode;
+            displayList();
         }
 
         function insertAtPosition(value, position) {
-            const newNode = createNode(value);
-            if (position <= 0 || !head) {
+            let newNode = createNode(value);
+            if (position <= 0 || head === null) {
                 insertFront(value);
                 return;
             }
-            let current = head;
+
+            let temp = head;
             let index = 1;
-            while (index < position && current.next) {
-                current = current.next;
+            while (index < position && temp.next !== null) {
+                temp = temp.next;
                 index++;
             }
-            newNode.next = current.next;
-            current.next = newNode;
+            newNode.next = temp.next;
+            temp.next = newNode;
+            displayList();
         }
 
         function insertLast(value) {
-            const newNode = createNode(value);
-            if (!head) {
+            let newNode = createNode(value);
+            if (head === null) {
                 head = newNode;
             } else {
-                let current = head;
-                while (current.next) current = current.next;
-                current.next = newNode;
+                let temp = head;
+                while (temp.next !== null) {
+                    temp = temp.next;
+                }
+                temp.next = newNode;
             }
+            displayList();
         }
 
-        function display() {
-            const elements = [];
-            let current = head;
-            let index = 0;
-            while (current) {
-                elements.push({ index: index++, value: current.value });
-                current = current.next;
+        function removeNodeAtPosition(position) {
+            if (head === null || position < 0) return;
+
+            if (position === 0) {
+                head = head.next;
+                displayList();
+                return;
             }
-            return elements;
+
+            let temp = head;
+            let index = 1;
+            while (index < position && temp.next !== null) {
+                temp = temp.next;
+                index++;
+            }
+
+            if (temp.next !== null) {
+                temp.next = temp.next.next;
+            }
+            displayList();
+        }
+
+        function displayList() {
+            const container = $("#singlyContainer");
+            container.empty();
+            let temp = head;
+            let index = 0;
+            while (temp !== null) {
+                const nodeHtml = `
+                    <div class='node-container'>
+                        <div class='index'>${index++}</div>
+                        <div class='node'>${temp.value}</div>
+                    </div>`;
+                container.append(nodeHtml);
+                temp = temp.next;
+                if (temp !== null) container.append("<span class='arrow'>→</span>");
+            }
         }
 
         $(document).ready(function () {
@@ -107,24 +141,13 @@
                 }
             });
 
-            $("#btnDisplaySingly").click(function () {
-                const elements = display();
-                displayList(elements, "#singlyContainer");
+            $("#btnRemoveNode").click(function () {
+                const position = parseInt($("#nodePosition").val());
+                if (!isNaN(position)) {
+                    removeNodeAtPosition(position);
+                    $("#nodePosition").val('');
+                }
             });
-
-            function displayList(elements, containerId) {
-                const container = $(containerId);
-                container.empty();
-                elements.forEach((element, index) => {
-                    const nodeHtml = `
-                        <div class='node-container'>
-                            <div class='index'>${element.index}</div>
-                            <div class='node'>${element.value}</div>
-                        </div>`;
-                    container.append(nodeHtml);
-                    if (index < elements.length - 1) container.append("<span class='arrow'>→</span>");
-                });
-            }
         });
     </script>
 </body>
