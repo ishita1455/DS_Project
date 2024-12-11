@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #3c6487;
+            color: #d086bb;
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #c38eb4;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.25em;
+        }
+
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 20vw;
+            height: 100vh;
+            background-color: #26425a;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidenav.open {
+            transform: translateX(0);
+        }
+
+        .sidenav h1 {
+            color: #c38eb4;
+            text-align: center;
+            line-height: 90px;
+            border-bottom: 1px dotted white;
+            margin-bottom: 50px;
+        }
+
+        .sidenav ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidenav ul li:hover {
+            background-color: rgba(113, 169, 243, 0.1);
+        }
+
+        .nav-link {
+            color: #c38eb4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #c38eb4;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3c6487;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #3c6487;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="hamburger" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="logo">Virtual Labs</h1>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidenav" id="sidebar">
+            <span class="close-btn" onclick="closeNav()">
+                <i class="fas fa-times"></i>
+            </span>
+            <h1>Virtual Labs</h1>
+            <ul>
+                <li><a href="../img.html" class="nav-link">Home</a></li>
+            <li><a href="../Pretest/plinear.html" class="nav-link">Pretest</a></li>
+            <li><a href="../Theory/lineartheory.html" class="nav-link">Theory</a></li>
+            <li><a href="../Posttest/linearsearch.html" class="nav-link">Posttest</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h1>Linear Search Quiz</h1>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+        const questions = [
+    { question: "What is linear search?", answers: ["A) A search algorithm that checks each element sequentially", "B) A search algorithm that divides the array in half", "C) A search algorithm that uses hashing"], correct: "A" },
+    { question: "What is the time complexity of linear search in the worst case?", answers: ["A) O(n)", "B) O(log n)", "C) O(1)"], correct: "A" },
+    { question: "What type of data structure is required for linear search?", answers: ["A) Sorted array", "B) Unsorted array", "C) Any data structure"], correct: "C" },
+    { question: "In linear search, if the element is not found, what is returned?", answers: ["A) -1", "B) 0", "C) The last element"], correct: "A" },
+    { question: "What is the average case time complexity of linear search?", answers: ["A) O(n)", "B) O(log n)", "C) O(1)"], correct: "A" },
+    { question: "Which type of search algorithm is linear search?", answers: ["A) Divide and conquer", "B) Sequential", "C) Randomized"], correct: "B" },
+    { question: "In linear search, where does the algorithm start searching?", answers: ["A) Middle of the array", "B) Start of the array", "C) End of the array"], correct: "B" },
+    { question: "What is the best case time complexity of linear search?", answers: ["A) O(n)", "B) O(log n)", "C) O(1)"], correct: "C" },
+    { question: "In which scenario is linear search particularly useful?", answers: ["A) When data is sorted", "B) When data is small or unsorted", "C) When data is in a binary tree"], correct: "B" },
+    { question: "What happens in linear search if the element is found?", answers: ["A) The index is returned", "B) -1 is returned", "C) It continues searching"], correct: "A" },
+    { question: "What is the primary disadvantage of linear search?", answers: ["A) Requires sorted data", "B) Slow for large datasets", "C) High memory usage"], correct: "B" },
+    { question: "Which of the following is NOT true about linear search?", answers: ["A) Works on both arrays and linked lists", "B) Requires sorting the data first", "C) Has a worst-case time complexity of O(n)"], correct: "B" },
+    { question: "What is the main difference between linear and binary search?", answers: ["A) Linear search is faster", "B) Binary search requires sorted data", "C) Binary search uses hashing"], correct: "B" },
+    { question: "In an unsorted list, which search algorithm is preferred?", answers: ["A) Linear search", "B) Binary search", "C) Counting sort"], correct: "A" },
+    { question: "How does linear search handle duplicate elements?", answers: ["A) Finds the first occurrence", "B) Finds the last occurrence", "C) Returns an error"], correct: "A" },
+    { question: "What is the key characteristic of a sequential search?", answers: ["A) Divides data in halves", "B) Checks each element in sequence", "C) Skips elements"], correct: "B" },
+    { question: "Which type of data structure can linear search be applied to?", answers: ["A) Arrays", "B) Linked lists", "C) Any data structure"], correct: "C" },
+    { question: "When is the worst-case scenario for linear search?", answers: ["A) When the element is at the beginning", "B) When the element is at the end or absent", "C) When the data is sorted"], correct: "B" },
+    { question: "Why is linear search not efficient for large datasets?", answers: ["A) Requires data to be sorted", "B) Takes O(n) time to find an element", "C) Needs additional memory"], correct: "B" },
+    { question: "What is returned by linear search if the target element is at index 0?", answers: ["A) 0", "B) -1", "C) The length of the array"], correct: "A" }
+];
+
+
+       
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        
+        const selectedQuestions = shuffle(questions).slice(0, 5);
+
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            selectedQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-card';
+                questionBlock.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    ${q.answers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + i)}"> 
+                            ${answer}
+                        </label>
+                    `).join('')}
+                    <div id="correct-answer-${index + 1}" class="correct-answer" style="display:none;">Correct answer: ${q.correct}</div>
+                `;
+                container.appendChild(questionBlock);
+            });
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswerDiv = document.getElementById(`correct-answer-${index + 1}`);
+                correctAnswerDiv.style.display = 'block'; 
+
+                if (selected && selected.value === q.correct) {
+                    score++;
+                    selected.parentElement.style.color = 'green'; 
+                } else if (selected) {
+                    selected.parentElement.style.color = 'red'; 
+                }
+            });
+
+            document.getElementById('result').innerText = `You scored ${score} out of ${selectedQuestions.length}!`;
+        });
+
+        displayQuestions(); 
+        function openNav() {
+            document.getElementById("sidebar").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    </script>
+</body>
+</html>

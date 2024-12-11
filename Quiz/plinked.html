@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #3c6487;
+            color: #d086bb;
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #c38eb4;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.25em;
+        }
+
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 20vw;
+            height: 100vh;
+            background-color: #26425a;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidenav.open {
+            transform: translateX(0);
+        }
+
+        .sidenav h1 {
+            color: #c38eb4;
+            text-align: center;
+            line-height: 90px;
+            border-bottom: 1px dotted white;
+            margin-bottom: 50px;
+        }
+
+        .sidenav ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidenav ul li:hover {
+            background-color: rgba(113, 169, 243, 0.1);
+        }
+
+        .nav-link {
+            color: #c38eb4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #c38eb4;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3c6487;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #3c6487;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="hamburger" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="logo">Virtual Labs</h1>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidenav" id="sidebar">
+            <span class="close-btn" onclick="closeNav()">
+                <i class="fas fa-times"></i>
+            </span>
+            <h1>Virtual Labs</h1>
+            <ul>
+                <li><a href="../img.html" class="nav-link">Home</a></li>
+                <li><a href="../Pretest/plinked.html" class="nav-link">Pretest</a></li>
+                <li><a href="../Theory/lltheory.html" class="nav-link">Theory</a></li>
+                <li><a href="../Posttest/linkedlist.html" class="nav-link">Posttest</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h1>Linked List Quiz</h1>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+        const questions = [
+    { question: "What is a linked list?", answers: ["A) A sequential collection of elements stored in contiguous memory", "B) A collection of nodes where each node points to the next", "C) A circular data structure"], correct: "B" },
+    { question: "What is a node in a linked list?", answers: ["A) An element in an array", "B) A component that stores data and a reference to the next node", "C) The starting point of a list"], correct: "B" },
+    { question: "What is the first node in a linked list called?", answers: ["A) Tail", "B) Head", "C) Root"], correct: "B" },
+    { question: "What is a singly linked list?", answers: ["A) A list where each node has a single reference to the next node", "B) A list with two references for each node", "C) A list where nodes are stored contiguously"], correct: "A" },
+    { question: "What is a doubly linked list?", answers: ["A) A list with nodes having two data fields", "B) A list where each node points to both the previous and the next node", "C) A list where nodes are circularly connected"], correct: "B" },
+    { question: "What is the time complexity of inserting an element at the beginning of a singly linked list?", answers: ["A) O(1)", "B) O(n)", "C) O(log n)"], correct: "A" },
+    { question: "What is the time complexity of accessing the last element in a singly linked list?", answers: ["A) O(1)", "B) O(n)", "C) O(log n)"], correct: "B" },
+    { question: "What is the last node in a linked list called?", answers: ["A) End", "B) Head", "C) Tail"], correct: "C" },
+    { question: "How does a circular linked list differ from a standard linked list?", answers: ["A) It has no head node", "B) The last node points back to the first node", "C) Each node has multiple data fields"], correct: "B" },
+    { question: "What is an advantage of linked lists over arrays?", answers: ["A) Faster access to elements", "B) Dynamic memory allocation", "C) Fixed size"], correct: "B" },
+    { question: "What is a disadvantage of linked lists compared to arrays?", answers: ["A) Fixed size", "B) No random access", "C) Dynamic memory allocation"], correct: "B" },
+    { question: "How do you insert a node at the end of a singly linked list?", answers: ["A) Traverse to the last node, then link the new node", "B) Update the head pointer", "C) Update the tail pointer"], correct: "A" },
+    { question: "In a doubly linked list, how many pointers does each node have?", answers: ["A) One", "B) Two", "C) Three"], correct: "B" },
+    { question: "What is the advantage of a doubly linked list over a singly linked list?", answers: ["A) Allows backward traversal", "B) Uses less memory", "C) Requires only one pointer per node"], correct: "A" },
+    { question: "What is the time complexity of deleting a node at a known position in a singly linked list?", answers: ["A) O(1)", "B) O(n)", "C) O(log n)"], correct: "B" },
+    { question: "What is a common application of a circular linked list?", answers: ["A) Implementing stacks", "B) Implementing queues with circular buffers", "C) Implementing hash tables"], correct: "B" },
+    { question: "What does the term 'null' signify in a linked list?", answers: ["A) The end of the list", "B) An error in the list", "C) An empty node"], correct: "A" },
+    { question: "In a circular linked list, where does the 'tail' node point?", answers: ["A) To the head node", "B) To the previous node", "C) To null"], correct: "A" },
+    { question: "What is the time complexity for searching for an element in an unsorted linked list?", answers: ["A) O(1)", "B) O(n)", "C) O(log n)"], correct: "B" },
+    { question: "How is a linked list typically traversed?", answers: ["A) By using an index", "B) By following each node's pointer", "C) By using a stack"], correct: "B" }
+];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        
+        const selectedQuestions = shuffle(questions).slice(0, 5);
+
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            selectedQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-card';
+                questionBlock.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    ${q.answers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + i)}"> 
+                            ${answer}
+                        </label>
+                    `).join('')}
+                    <div id="correct-answer-${index + 1}" class="correct-answer" style="display:none;">Correct answer: ${q.correct}</div>
+                `;
+                container.appendChild(questionBlock);
+            });
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswerDiv = document.getElementById(`correct-answer-${index + 1}`);
+                correctAnswerDiv.style.display = 'block'; 
+
+                if (selected && selected.value === q.correct) {
+                    score++;
+                    selected.parentElement.style.color = 'green'; 
+                } else if (selected) {
+                    selected.parentElement.style.color = 'red'; 
+                }
+            });
+
+            document.getElementById('result').innerText = `You scored ${score} out of ${selectedQuestions.length}!`;
+        });
+
+        displayQuestions(); 
+        function openNav() {
+            document.getElementById("sidebar").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    </script>
+</body>
+</html>

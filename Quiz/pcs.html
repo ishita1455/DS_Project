@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #3c6487;
+            color: #d086bb;
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #c38eb4;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.25em;
+        }
+
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 20vw;
+            height: 100vh;
+            background-color: #26425a;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidenav.open {
+            transform: translateX(0);
+        }
+
+        .sidenav h1 {
+            color: #c38eb4;
+            text-align: center;
+            line-height: 90px;
+            border-bottom: 1px dotted white;
+            margin-bottom: 50px;
+        }
+
+        .sidenav ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidenav ul li:hover {
+            background-color: rgba(113, 169, 243, 0.1);
+        }
+
+        .nav-link {
+            color: #c38eb4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #c38eb4;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3c6487;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #3c6487;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="hamburger" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="logo">Virtual Labs</h1>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidenav" id="sidebar">
+            <span class="close-btn" onclick="closeNav()">
+                <i class="fas fa-times"></i>
+            </span>
+            <h1>Virtual Labs</h1>
+            <ul>
+                <li><a href="../img.html" class="nav-link">Home</a></li>
+                <li><a href="../Pretest/pcs.html" class="nav-link">Pretest</a></li>
+                <li><a href="../Theory/cstheory.html" class="nav-link">Theory</a></li>
+                <li><a href="../Posttest/countings.html" class="nav-link">Posttest</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h1>Counting Sort Quiz</h1>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+        const questions = [
+    { question: "What type of sorting algorithm is counting sort?", answers: ["A) Comparison-based", "B) Non-comparison-based", "C) Divide and conquer"], correct: "B" },
+    { question: "What is the time complexity of counting sort?", answers: ["A) O(n^2)", "B) O(n + k)", "C) O(log n)"], correct: "B" },
+    { question: "What is a key requirement for using counting sort?", answers: ["A) Data must be integers in a known range", "B) Data must be sorted", "C) Data must be floating-point numbers"], correct: "A" },
+    { question: "What is the main advantage of counting sort?", answers: ["A) It is stable", "B) It has a low time complexity for all inputs", "C) It can sort floating-point numbers"], correct: "A" },
+    { question: "What is a primary limitation of counting sort?", answers: ["A) Only works for arrays of fixed size", "B) Requires a known range of integer values", "C) Uses a linked list to store data"], correct: "B" },
+    { question: "What is the space complexity of counting sort?", answers: ["A) O(n)", "B) O(k)", "C) O(n + k)"], correct: "C" },
+    { question: "What does counting sort use to count the occurrences of each element?", answers: ["A) A stack", "B) A frequency array", "C) A binary search tree"], correct: "B" },
+    { question: "In counting sort, how is the output array built after counting elements?", answers: ["A) By directly sorting elements", "B) By summing frequencies to determine positions", "C) By randomly placing elements"], correct: "B" },
+    { question: "What kind of sorting algorithm is counting sort?", answers: ["A) Stable sort", "B) Unstable sort", "C) Comparison sort"], correct: "A" },
+    { question: "In counting sort, what does the range of values refer to?", answers: ["A) The range between the smallest and largest values in the input", "B) The number of unique elements", "C) The average value in the input"], correct: "A" },
+    { question: "What happens if counting sort is used on data with a large range of values?", answers: ["A) Sorting is faster", "B) Memory usage increases", "C) Sorting is inaccurate"], correct: "B" },
+    { question: "Which data type is counting sort best suited for?", answers: ["A) Strings", "B) Floats", "C) Integers within a known range"], correct: "C" },
+    { question: "What is the purpose of the cumulative count in counting sort?", answers: ["A) To maintain order for stability", "B) To remove duplicates", "C) To sort data randomly"], correct: "A" },
+    { question: "Counting sort is most efficient when the range of input data values is:", answers: ["A) Much smaller than the number of elements", "B) Much larger than the number of elements", "C) Equal to the number of elements"], correct: "A" },
+    { question: "What kind of input values cause counting sort to use excessive memory?", answers: ["A) A small range of integer values", "B) A large range of integer values", "C) A list of strings"], correct: "B" },
+    { question: "Which array does counting sort modify to achieve the sorted output?", answers: ["A) The input array", "B) The frequency array", "C) Both input and output arrays"], correct: "C" },
+    { question: "What property of counting sort makes it suitable for sorting characters in strings?", answers: ["A) Requires minimal comparisons", "B) Works well with integer representations of characters", "C) Stable but slow"], correct: "B" },
+    { question: "In counting sort, what is the role of the output array?", answers: ["A) It stores the frequency counts", "B) It stores the final sorted order", "C) It calculates the median"], correct: "B" },
+    { question: "Which of the following statements is true about counting sort?", answers: ["A) It can sort floating-point numbers", "B) It is not comparison-based", "C) It only works on already sorted data"], correct: "B" },
+    { question: "What is the main purpose of the cumulative count array in counting sort?", answers: ["A) To count the occurrences of each element", "B) To determine the position of elements in the output array", "C) To double the memory requirement"], correct: "B" }
+];
+
+       
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        
+        const selectedQuestions = shuffle(questions).slice(0, 5);
+
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            selectedQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-card';
+                questionBlock.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    ${q.answers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + i)}"> 
+                            ${answer}
+                        </label>
+                    `).join('')}
+                    <div id="correct-answer-${index + 1}" class="correct-answer" style="display:none;">Correct answer: ${q.correct}</div>
+                `;
+                container.appendChild(questionBlock);
+            });
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswerDiv = document.getElementById(`correct-answer-${index + 1}`);
+                correctAnswerDiv.style.display = 'block'; 
+
+                if (selected && selected.value === q.correct) {
+                    score++;
+                    selected.parentElement.style.color = 'green'; 
+                } else if (selected) {
+                    selected.parentElement.style.color = 'red'; 
+                }
+            });
+
+            document.getElementById('result').innerText = `You scored ${score} out of ${selectedQuestions.length}!`;
+        });
+
+        displayQuestions(); 
+        function openNav() {
+            document.getElementById("sidebar").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    </script>
+</body>
+</html>

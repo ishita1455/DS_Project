@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #3c6487;
+            color: #d086bb;
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #c38eb4;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.25em;
+        }
+
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 20vw;
+            height: 100vh;
+            background-color: #26425a;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidenav.open {
+            transform: translateX(0);
+        }
+
+        .sidenav h1 {
+            color: #c38eb4;
+            text-align: center;
+            line-height: 90px;
+            border-bottom: 1px dotted white;
+            margin-bottom: 50px;
+        }
+
+        .sidenav ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidenav ul li:hover {
+            background-color: rgba(113, 169, 243, 0.1);
+        }
+
+        .nav-link {
+            color: #c38eb4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #c38eb4;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3c6487;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #3c6487;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="hamburger" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="logo">Virtual Labs</h1>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidenav" id="sidebar">
+            <span class="close-btn" onclick="closeNav()">
+                <i class="fas fa-times"></i>
+            </span>
+            <h1>Virtual Labs</h1>
+            <ul>
+                <li><a href="../img.html" class="nav-link">Home</a></li>
+                <li><a href="../Pretest/phash.html" class="nav-link">Pretest</a></li>
+                <li><a href="../Theory/hashing.html" class="nav-link">Theory</a></li>
+                <li><a href="../Posttest/hashing.html" class="nav-link">Posttest</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h1>Hashing Quiz</h1>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+       const questions = [
+    { question: "What is hashing in data structures?", answers: ["A) Storing data in a linear structure", "B) Mapping keys to specific positions in a table", "C) Arranging data in a hierarchical structure"], correct: "B" },
+    { question: "What is the purpose of a hash function?", answers: ["A) To generate random keys", "B) To map data to a specific index", "C) To encrypt data"], correct: "B" },
+    { question: "What is collision in hashing?", answers: ["A) When two keys have the same hash value", "B) When keys have different hash values", "C) When the hash table is full"], correct: "A" },
+    { question: "What is linear probing?", answers: ["A) Resolving collisions by moving to the next available index", "B) Using a new hash function on collision", "C) Skipping indices by a fixed step size"], correct: "A" },
+    { question: "What is quadratic probing?", answers: ["A) Resolving collisions by moving to the next index", "B) Resolving collisions using a quadratic formula to find the next index", "C) Using a second hash function"], correct: "B" },
+    { question: "What is double hashing?", answers: ["A) Using two hash functions to resolve collisions", "B) Skipping indices by two positions", "C) Using the same hash function twice"], correct: "A" },
+    { question: "In linear probing, how is the next index calculated on collision?", answers: ["A) hash(key) + i", "B) hash(key) + i^2", "C) hash(key) * i"], correct: "A" },
+    { question: "In quadratic probing, how is the next index calculated on collision?", answers: ["A) hash(key) + i", "B) hash(key) + i^2", "C) hash(key) * i"], correct: "B" },
+    { question: "In double hashing, how is the next index determined on collision?", answers: ["A) Using the second hash function", "B) By incrementing by one", "C) By reversing the index"], correct: "A" },
+    { question: "What is a primary advantage of double hashing?", answers: ["A) Eliminates clustering", "B) Faster insertion", "C) Requires less space"], correct: "A" },
+    { question: "What is primary clustering in hashing?", answers: ["A) Keys cluster around one index", "B) Consecutive keys map to consecutive slots", "C) Empty slots in between occupied slots"], correct: "B" },
+    { question: "Which probing technique is prone to primary clustering?", answers: ["A) Linear probing", "B) Quadratic probing", "C) Double hashing"], correct: "A" },
+    { question: "What is secondary clustering?", answers: ["A) Clustering near the hash function's result", "B) Clustering based on the hash function’s second result", "C) Clustering when two keys with the same hash value resolve to the same index"], correct: "C" },
+    { question: "Which probing technique is prone to secondary clustering?", answers: ["A) Linear probing", "B) Quadratic probing", "C) Double hashing"], correct: "B" },
+    { question: "How does double hashing help avoid secondary clustering?", answers: ["A) By using a different step size for each key", "B) By resetting the hash table", "C) By storing keys in a linked list"], correct: "A" },
+    { question: "In quadratic probing, why might it be difficult to fill all positions in the hash table?", answers: ["A) Limited by table size", "B) Some positions may never be reached", "C) Quadratic probing is slower"], correct: "B" },
+    { question: "What is the main disadvantage of linear probing?", answers: ["A) It uses two hash functions", "B) It causes primary clustering", "C) It requires a lot of memory"], correct: "B" },
+    { question: "What is the main disadvantage of quadratic probing?", answers: ["A) Secondary clustering", "B) Difficulty finding an empty slot if the table is too full", "C) Requires a larger table"], correct: "B" },
+    { question: "Which probing method requires the table size to be prime for better performance?", answers: ["A) Linear probing", "B) Quadratic probing", "C) Double hashing"], correct: "C" },
+    { question: "In double hashing, what condition is required for the second hash function to work effectively?", answers: ["A) The table size should be a power of 2", "B) The table size should be prime", "C) The hash values should be identical"], correct: "B" }
+];
+ 
+
+
+       
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        
+        const selectedQuestions = shuffle(questions).slice(0, 5);
+
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            selectedQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-card';
+                questionBlock.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    ${q.answers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + i)}"> 
+                            ${answer}
+                        </label>
+                    `).join('')}
+                    <div id="correct-answer-${index + 1}" class="correct-answer" style="display:none;">Correct answer: ${q.correct}</div>
+                `;
+                container.appendChild(questionBlock);
+            });
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswerDiv = document.getElementById(`correct-answer-${index + 1}`);
+                correctAnswerDiv.style.display = 'block'; 
+
+                if (selected && selected.value === q.correct) {
+                    score++;
+                    selected.parentElement.style.color = 'green'; 
+                } else if (selected) {
+                    selected.parentElement.style.color = 'red'; 
+                }
+            });
+
+            document.getElementById('result').innerText = `You scored ${score} out of ${selectedQuestions.length}!`;
+        });
+
+        displayQuestions(); 
+        function openNav() {
+            document.getElementById("sidebar").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    </script>
+</body>
+</html>

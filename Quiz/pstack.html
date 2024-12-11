@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #3c6487;
+            color: #d086bb;
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #c38eb4;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.25em;
+        }
+
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 20vw;
+            height: 100vh;
+            background-color: #26425a;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidenav.open {
+            transform: translateX(0);
+        }
+
+        .sidenav h1 {
+            color: #c38eb4;
+            text-align: center;
+            line-height: 90px;
+            border-bottom: 1px dotted white;
+            margin-bottom: 50px;
+        }
+
+        .sidenav ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidenav ul li:hover {
+            background-color: rgba(113, 169, 243, 0.1);
+        }
+
+        .nav-link {
+            color: #c38eb4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #c38eb4;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3c6487;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #3c6487;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="hamburger" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="logo">Virtual Labs</h1>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidenav" id="sidebar">
+            <span class="close-btn" onclick="closeNav()">
+                <i class="fas fa-times"></i>
+            </span>
+            <h1>Virtual Labs</h1>
+            <ul>
+                <li><a href="../img.html" class="nav-link">Home</a></li>
+                <li><a href="../Pretest/pstack.html" class="nav-link">Pretest</a></li>
+                <li><a href="../Theory/stacktheory.html" class="nav-link">Theory</a></li>
+                <li><a href="../Posttest/stack.html" class="nav-link">Posttest</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h1>Stack Quiz</h1>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+       const questions = [
+    { question: "What is a stack in data structures?", answers: ["A) A linear data structure", "B) A hierarchical data structure", "C) A circular data structure"], correct: "A" },
+    { question: "Which principle does a stack follow?", answers: ["A) FIFO (First In First Out)", "B) LIFO (Last In First Out)", "C) LILO (Last In Last Out)"], correct: "B" },
+    { question: "What is the primary operation used to add an element to a stack?", answers: ["A) Insert", "B) Enqueue", "C) Push"], correct: "C" },
+    { question: "What operation removes an element from the stack?", answers: ["A) Delete", "B) Dequeue", "C) Pop"], correct: "C" },
+    { question: "What does the 'top' in a stack represent?", answers: ["A) The last element added", "B) The first element added", "C) The middle element"], correct: "A" },
+    { question: "What happens when you try to pop an element from an empty stack?", answers: ["A) The operation succeeds", "B) Underflow occurs", "C) Overflow occurs"], correct: "B" },
+    { question: "What is stack overflow?", answers: ["A) Adding elements beyond stack capacity", "B) Removing elements from an empty stack", "C) Accessing an element out of bounds"], correct: "A" },
+    { question: "Which of these applications commonly use stacks?", answers: ["A) Graph traversal", "B) Expression evaluation", "C) Sorting algorithms"], correct: "B" },
+    { question: "What is the time complexity for pushing or popping an element in a stack?", answers: ["A) O(1)", "B) O(n)", "C) O(log n)"], correct: "A" },
+    { question: "What would happen if you perform a 'pop' operation on an empty stack?", answers: ["A) An exception is thrown", "B) It returns the last value", "C) It does nothing"], correct: "A" },
+    { question: "Which data structure can be used to implement a stack?", answers: ["A) Array", "B) Linked List", "C) Both A and B"], correct: "C" },
+    { question: "In an array-based stack, where is the 'top' initially set?", answers: ["A) -1", "B) 0", "C) 1"], correct: "A" },
+    { question: "How do you check if a stack is empty?", answers: ["A) top == -1", "B) top == 0", "C) top > -1"], correct: "A" },
+    { question: "What is a common use of stacks in compilers?", answers: ["A) Memory management", "B) Syntax parsing", "C) Garbage collection"], correct: "B" },
+    { question: "Which operation is used to view the top element without removing it?", answers: ["A) Peek", "B) Pop", "C) Push"], correct: "A" },
+    { question: "What is the result of pushing an element into a full stack?", answers: ["A) It adds the element", "B) Overflow occurs", "C) Underflow occurs"], correct: "B" },
+    { question: "In which scenario is a stack most useful?", answers: ["A) When reversing a list", "B) When iterating through a list", "C) When sorting a list"], correct: "A" },
+    { question: "Which operation sequence will result in an empty stack if started from an empty stack?", answers: ["A) Push, Push, Pop, Pop", "B) Pop, Push, Push, Pop", "C) Push, Push, Pop, Peek"], correct: "A" },
+    { question: "Which of the following applications typically use stacks?", answers: ["A) Balancing parentheses", "B) Binary search", "C) Hashing"], correct: "A" },
+    { question: "What is the space complexity of a stack with n elements?", answers: ["A) O(1)", "B) O(n)", "C) O(n^2)"], correct: "B" }
+];
+
+
+       
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        
+        const selectedQuestions = shuffle(questions).slice(0, 5);
+
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            selectedQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-card';
+                questionBlock.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    ${q.answers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + i)}"> 
+                            ${answer}
+                        </label>
+                    `).join('')}
+                    <div id="correct-answer-${index + 1}" class="correct-answer" style="display:none;">Correct answer: ${q.correct}</div>
+                `;
+                container.appendChild(questionBlock);
+            });
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswerDiv = document.getElementById(`correct-answer-${index + 1}`);
+                correctAnswerDiv.style.display = 'block'; 
+
+                if (selected && selected.value === q.correct) {
+                    score++;
+                    selected.parentElement.style.color = 'green'; 
+                } else if (selected) {
+                    selected.parentElement.style.color = 'red'; 
+                }
+            });
+
+            document.getElementById('result').innerText = `You scored ${score} out of ${selectedQuestions.length}!`;
+        });
+
+        displayQuestions(); 
+        function openNav() {
+            document.getElementById("sidebar").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    </script>
+</body>
+</html>

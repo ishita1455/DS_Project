@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #3c6487;
+            color: #d086bb;
+            padding: 15px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-family: monospace;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #c38eb4;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.25em;
+        }
+
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 20vw;
+            height: 100vh;
+            background-color: #26425a;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidenav.open {
+            transform: translateX(0);
+        }
+
+        .sidenav h1 {
+            color: #c38eb4;
+            text-align: center;
+            line-height: 90px;
+            border-bottom: 1px dotted white;
+            margin-bottom: 50px;
+        }
+
+        .sidenav ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(113, 169, 243, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidenav ul li:hover {
+            background-color: rgba(113, 169, 243, 0.1);
+        }
+
+        .nav-link {
+            color: #c38eb4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #c38eb4;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3c6487;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #3c6487;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="hamburger" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="logo">Virtual Labs</h1>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidenav" id="sidebar">
+            <span class="close-btn" onclick="closeNav()">
+                <i class="fas fa-times"></i>
+            </span>
+            <h1>Virtual Labs</h1>
+            <ul>
+                <li><a href="../img.html" class="nav-link">Home</a></li>
+                <li><a href="../Pretest/pbinary.html" class="nav-link">Pretest</a></li>
+                <li><a href="../Theory/binarytheory.html" class="nav-link">Theory</a></li>
+                <li><a href="../Posttest/binary.html" class="nav-link">Posttest</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <h1>Binary Search Quiz</h1>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+        const questions = [
+            { question: "What is binary search?", answers: ["A) A search algorithm that checks each element sequentially", "B) A search algorithm that repeatedly divides the search interval in half", "C) A search algorithm that uses hashing to find the element"], correct: "B" },
+            { question: "What is the time complexity of binary search in the worst case?", answers: ["A) O(n)", "B) O(log n)", "C) O(n^2)"], correct: "B" },
+            { question: "What is a key prerequisite for applying binary search?", answers: ["A) The data must be sorted", "B) The data must be unsorted", "C) The data must be in a linked list"], correct: "A" },
+            { question: "In binary search, if the middle element is greater than the target, what should the algorithm do next?", answers: ["A) Discard the left half of the array", "B) Discard the right half of the array", "C) Search both halves of the array"], correct: "B" },
+            { question: "What is a major limitation of binary search?", answers: ["A) It cannot be applied to linked lists", "B) It requires the data to be sorted", "C) It has higher time complexity than linear search"], correct: "B" },
+            { question: "What does binary search require in terms of data structure?", answers: ["A) Sorted array", "B) Unsorted array", "C) Any data structure"], correct: "A" },
+            { question: "What is the primary benefit of binary search over linear search?", answers: ["A) Simplicity", "B) Lower time complexity", "C) Requires less memory"], correct: "B" },
+            { question: "What is the average case time complexity of binary search?", answers: ["A) O(n)", "B) O(log n)", "C) O(n log n)"], correct: "B" },
+            { question: "In which situation would binary search fail?", answers: ["A) Searching a sorted array", "B) Searching an unsorted array", "C) Searching a linked list"], correct: "B" },
+            { question: "How many times can binary search divide the data if there are 1024 elements?", answers: ["A) 10", "B) 8", "C) 12"], correct: "A" },
+            { question: "Which of the following best describes binary search?", answers: ["A) Recursive", "B) Iterative", "C) Both A and B"], correct: "C" },
+            { question: "What do we call the element at the middle of the search space?", answers: ["A) Midpoint", "B) Pivot", "C) Median"], correct: "A" },
+            { question: "In a binary search tree, what does it mean if the left child is greater than the parent?", answers: ["A) Correct structure", "B) Incorrect structure", "C) Balanced tree"], correct: "B" },
+            { question: "What happens if the data structure is not sorted before applying binary search?", answers: ["A) It will return an incorrect result", "B) It will take longer to run", "C) It will crash"], correct: "A" },
+            { question: "Which of the following is NOT a requirement for binary search?", answers: ["A) Data must be sorted", "B) Must use an array", "C) Efficient division of search space"], correct: "B" },
+            { question: "What type of search algorithm is binary search?", answers: ["A) Divide and conquer", "B) Backtracking", "C) Greedy"], correct: "A" },
+            { question: "Which operation is more efficient on a sorted list using binary search?", answers: ["A) Finding an element", "B) Inserting an element", "C) Deleting an element"], correct: "A" },
+            { question: "What is the worst-case scenario for binary search in terms of operations?", answers: ["A) Finding the first element", "B) Finding the last element", "C) None of the above"], correct: "C" },
+            { question: "In an implementation of binary search, how is the midpoint calculated?", answers: ["A) (low + high) / 2", "B) (high - low) / 2", "C) (low + high) // 2"], correct: "A" },
+            { question: "When would you prefer binary search over linear search?", answers: ["A) When data is unsorted", "B) When data is sorted", "C) When performance is not an issue"], correct: "B" },
+        ];
+
+       
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        
+        const selectedQuestions = shuffle(questions).slice(0, 5);
+
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            selectedQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-card';
+                questionBlock.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    ${q.answers.map((answer, i) => `
+                        <label>
+                            <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + i)}"> 
+                            ${answer}
+                        </label>
+                    `).join('')}
+                    <div id="correct-answer-${index + 1}" class="correct-answer" style="display:none;">Correct answer: ${q.correct}</div>
+                `;
+                container.appendChild(questionBlock);
+            });
+        }
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswerDiv = document.getElementById(`correct-answer-${index + 1}`);
+                correctAnswerDiv.style.display = 'block'; 
+
+                if (selected && selected.value === q.correct) {
+                    score++;
+                    selected.parentElement.style.color = 'green'; 
+                } else if (selected) {
+                    selected.parentElement.style.color = 'red'; 
+                }
+            });
+
+            document.getElementById('result').innerText = `You scored ${score} out of ${selectedQuestions.length}!`;
+        });
+
+        displayQuestions(); 
+        function openNav() {
+            document.getElementById("sidebar").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    </script>
+</body>
+</html>
