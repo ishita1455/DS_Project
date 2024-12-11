@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .input-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .input-section input {
+            padding: 10px;
+            width: 240px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        .input-section button {
+            padding: 10px;
+            border: none;
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-section button:hover {
+            background-color: #4cae4c;
+        }
+        .array-container, .heap-container, .step-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+        .element-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
+        }
+        .array-element, .heap-element {
+            width: 50px;
+            height: 50px;
+            background-color: #80e0a8;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 3px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .heap-element {
+            background-color: #ffb6b6;
+        }
+        .sorted-element {
+            background-color: #a4c5f9;
+        }
+        .index-element {
+            width: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 2px;
+        }
+        .step {
+            font-size: 1.1em;
+            margin: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heap Sort Visualization</h1>
+    <div class="input-section">
+        <input type="text" id="inputArray" placeholder="Enter comma-separated numbers">
+        <button onclick="heapSort()">Sort</button>
+    </div>
+    <div class="array-container" id="arrayContainer"></div>
+    <h2>Max Heap</h2>
+    <div class="heap-container" id="heapContainer"></div>
+    <div class="step-container" id="stepContainer"></div>
+    <script>
+        let stepCounter = 0;
+
+        function displayArray(array, containerId, stepMessage = "", isSorted = false) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = stepMessage ? `<div class="step">${stepMessage}</div>` : "";
+            
+            const elementRow = document.createElement('div');
+            elementRow.classList.add('element-row');
+            const indexRow = document.createElement('div');
+            indexRow.classList.add('element-row');
+
+            array.forEach((element, index) => {
+                const elementDiv = document.createElement('div');
+                elementDiv.classList.add(containerId.includes('heap') ? 'heap-element' : 'array-element');
+                if (isSorted) elementDiv.classList.add('sorted-element');
+                elementDiv.textContent = element;
+                elementRow.appendChild(elementDiv);
+
+                const indexDiv = document.createElement('div');
+                indexDiv.classList.add('index-element');
+                indexDiv.textContent = index;
+                indexRow.appendChild(indexDiv);
+            });
+
+            container.appendChild(elementRow);
+            container.appendChild(indexRow);
+        }
+
+        function buildMaxHeap(array) {
+            for (let i = Math.floor(array.length / 2) - 1; i >= 0; i--) {
+                heapify(array, array.length, i);
+            }
+            displayArray(array, 'heapContainer', `Step ${++stepCounter}: Build Max Heap`);
+        }
+
+        function heapify(array, size, root) {
+            let largest = root;
+            const left = 2 * root + 1;
+            const right = 2 * root + 2;
+
+            if (left < size && array[left] > array[largest]) largest = left;
+            if (right < size && array[right] > array[largest]) largest = right;
+
+            if (largest !== root) {
+                [array[root], array[largest]] = [array[largest], array[root]];
+                heapify(array, size, largest);
+            }
+        }
+
+        async function heapSort() {
+            const input = document.getElementById('inputArray').value;
+            let array = input.split(',').map(Number);
+            
+            stepCounter = 0;
+            buildMaxHeap(array);
+
+            for (let i = array.length - 1; i > 0; i--) {
+                [array[0], array[i]] = [array[i], array[0]];
+                await new Promise(r => setTimeout(r, 2500));
+                displayArray(array, 'stepContainer', `Step ${++stepCounter}: Swap and Heapify`);
+                heapify(array, i, 0);
+                await new Promise(r => setTimeout(r, 2500));
+                displayArray(array, 'stepContainer', `Step ${++stepCounter}: Heapify after removing max`);
+            }
+
+            displayArray(array, 'arrayContainer', `Step ${++stepCounter}: Sorted Array`, true);
+        }
+    </script>
+</body>
+</html>

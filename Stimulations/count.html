@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counting Sort Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #e9ecef;
+        }
+        h1 {
+            color: #343a40;
+        }
+        .array, .count-display {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .element {
+            width: 50px;
+            padding: 10px;
+            margin: 0 5px;
+            background-color: #007bff;
+            border: 1px solid #0056b3;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        .index {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #ffffff;
+        }
+        .step {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #495057;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Counting Sort Visualization</h1>
+<input type="text" id="inputArray" placeholder="Enter numbers (comma separated)">
+<button onclick="countingSort()">Sort</button>
+
+<div class="array" id="arrayDisplay"></div>
+<div class="count-display" id="countDisplay"></div>
+<div class="step" id="stepDisplay"></div>
+
+<script>
+    async function countingSort() {
+        const input = document.getElementById("inputArray").value;
+        const array = input.split(',').map(Number);
+        const max = Math.max(...array);
+        const count = new Array(max + 1).fill(0);
+        const output = new Array(array.length);
+
+        for (let num of array) {
+            count[num]++;
+        }
+        await displayCountAndArray(count, array, "Count Array after counting occurrences:");
+
+        for (let i = 1; i <= max; i++) {
+            count[i] += count[i - 1];
+        }
+        await displayCountAndArray(count, array, "Count Array after cumulative count:");
+
+        for (let i = array.length - 1; i >= 0; i--) {
+            const num = array[i];
+            output[count[num] - 1] = num;
+            count[num]--;
+            await displayCountAndArray(count, output, `Building output array: placed ${num}`);
+        }
+
+        displayFinalArray(output);
+    }
+
+    function displayCountAndArray(count, array, message) {
+        return new Promise(resolve => {
+            const countDisplay = document.getElementById("countDisplay");
+            const arrayDisplay = document.getElementById("arrayDisplay");
+            const stepDisplay = document.getElementById("stepDisplay");
+
+            countDisplay.innerHTML = '';
+            arrayDisplay.innerHTML = '';
+            stepDisplay.innerHTML = message;
+
+            count.forEach((num, index) => {
+                const element = document.createElement("div");
+                element.className = "element";
+                element.innerText = num > 0 ? `${num}` : `0`;
+                
+                const indexElement = document.createElement("div");
+                indexElement.className = "index";
+                indexElement.innerText = index;
+                
+                element.appendChild(indexElement);
+                countDisplay.appendChild(element);
+            });
+
+            array.forEach(num => {
+                const element = document.createElement("div");
+                element.className = "element";
+                element.innerText = num;
+
+                const indexElement = document.createElement("div");
+                indexElement.className = "index";
+                indexElement.innerText = array.indexOf(num);
+                
+                element.appendChild(indexElement);
+                arrayDisplay.appendChild(element);
+            });
+
+            setTimeout(() => {
+                resolve();
+            }, 2000);
+        });
+    }
+
+    function displayFinalArray(array) {
+        const arrayDisplay = document.getElementById("arrayDisplay");
+        arrayDisplay.innerHTML = '';
+        array.forEach(num => {
+            const element = document.createElement("div");
+            element.className = "element";
+            element.innerText = num;
+
+            const indexElement = document.createElement("div");
+            indexElement.className = "index";
+            indexElement.innerText = array.indexOf(num);
+
+            element.appendChild(indexElement);
+            arrayDisplay.appendChild(element);
+        });
+        document.getElementById("stepDisplay").innerHTML = "Final Sorted Array:";
+    }
+</script>
+
+</body>
+</html>
